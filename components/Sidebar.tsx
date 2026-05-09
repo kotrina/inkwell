@@ -54,9 +54,27 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
         })}
       </nav>
 
-      <div className="px-3 py-4 border-t space-y-3" style={{ borderColor: "var(--border)" }}>
+      <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: "var(--border)" }}>
         <ThemeToggle />
-        <div className="px-2">
+        {[
+          { href: "/settings", label: "Configuración", icon: "⚙" },
+          { href: "/manual", label: "Manual de usuario", icon: "?" },
+        ].map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors"
+            style={{
+              color: pathname === item.href ? "var(--accent)" : "var(--muted)",
+              background: pathname === item.href ? "rgba(129,140,248,0.1)" : "transparent",
+            }}
+          >
+            <span>{item.icon}</span>
+            {item.label}
+          </Link>
+        ))}
+        <div className="px-3 pt-2">
           <p className="text-xs mb-1.5 truncate" style={{ color: "var(--muted)" }}>
             {session?.user?.email}
           </p>

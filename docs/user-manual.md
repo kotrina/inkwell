@@ -170,7 +170,38 @@ Crea contenido listo para publicar en redes sociales o como artículo, usando tu
 
 ---
 
-## 7. Dark / light mode
+## 7. Configuración — API Key de IA
+
+Ruta: **⚙ Configuración** en la parte inferior del menú lateral.
+
+Para que Inkwell pueda generar resúmenes y contenido necesitas configurar tu propia API Key de un proveedor de IA. Esto garantiza que cada usuario usa sus propios créditos.
+
+### Proveedores disponibles
+
+| Proveedor | Modelo usado | Dónde obtener la API Key |
+|---|---|---|
+| **Anthropic (Claude)** | claude-sonnet-4-5 | [console.anthropic.com](https://console.anthropic.com/settings/keys) |
+| **OpenAI (GPT-4o)** | gpt-4o | [platform.openai.com](https://platform.openai.com/api-keys) |
+| **Google Gemini** | gemini-2.0-flash | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+
+### Cómo configurarla
+
+1. Ve a **⚙ Configuración** desde el menú lateral.
+2. Selecciona tu proveedor.
+3. Pega tu API Key en el campo correspondiente.
+4. Haz clic en **Guardar API Key**.
+
+Tu clave se cifra antes de guardarse y nunca se muestra en claro en la aplicación.
+
+### Sin API Key configurada
+
+Si no tienes una API Key configurada, Inkwell funciona como almacén de artículos y conocimiento, pero las funciones de **Resumen email** y **Generar contenido** no estarán disponibles. Verás un aviso en el dashboard y en esas páginas con un enlace directo a Configuración.
+
+> 💡 Puedes actualizar o eliminar tu API Key desde la misma página de Configuración en cualquier momento.
+
+---
+
+## 8. Dark / light mode
 
 Inkwell tiene modo oscuro y claro. Para cambiar entre ellos:
 

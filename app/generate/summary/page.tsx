@@ -2,6 +2,7 @@
 
 import { AppShell } from "@/components/AppShell";
 import { ArticleCard } from "@/components/ArticleCard";
+import { NoApiKeyBanner } from "@/components/NoApiKeyBanner";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
@@ -21,10 +22,15 @@ export default function SummaryPage() {
   const [loading, setLoading] = useState(false);
   const [sending, setSending] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
 
   useEffect(() => {
-    fetch("/api/articles").then((r) => r.json()).then((data) => {
+    Promise.all([
+      fetch("/api/articles").then((r) => r.json()),
+      fetch("/api/settings").then((r) => r.json()),
+    ]).then(([data, settings]) => {
       if (Array.isArray(data)) setArticles(data);
+      setHasApiKey(settings.hasKey ?? false);
     });
   }, []);
 
@@ -85,6 +91,7 @@ export default function SummaryPage() {
   return (
     <AppShell>
       <div className="max-w-3xl">
+        {hasApiKey === false && <NoApiKeyBanner />}
         <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Resumen por email</h1>
         <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
           Selecciona artículos y genera un resumen editorial estructurado en español.
