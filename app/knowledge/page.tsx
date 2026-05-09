@@ -150,8 +150,9 @@ export default function KnowledgePage() {
                 onClick={() => setMode(m)}
                 className="flex-1 py-1.5 text-xs rounded-md transition-all font-medium"
                 style={{
-                  background: mode === m ? "var(--accent)" : "transparent",
-                  color: mode === m ? "#ffffff" : "var(--muted)",
+                  background: mode === m ? "var(--card)" : "transparent",
+                  color: mode === m ? "var(--foreground)" : "var(--muted)",
+                  boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.15)" : "none",
                 }}
               >
                 {m === "url" ? "URL" : m === "text" ? "Texto" : "PDF"}
@@ -173,8 +174,12 @@ export default function KnowledgePage() {
               <button
                 onClick={handleScrape}
                 disabled={scraping || !url}
-                className="px-4 py-2 rounded-md text-sm font-medium transition-opacity disabled:opacity-50"
-                style={{ background: "var(--btn-secondary)", color: "var(--btn-secondary-text)" }}
+                className="px-4 py-2 rounded-md text-sm font-medium transition-all disabled:opacity-50"
+                style={{
+                  background: "transparent",
+                  color: "var(--accent)",
+                  border: "1px solid rgba(129,140,248,0.4)",
+                }}
               >
                 {scraping ? "Extrayendo..." : "Extraer"}
               </button>

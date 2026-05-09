@@ -155,9 +155,9 @@ export default function ArticlesPage() {
                 onClick={() => setMode(m)}
                 className="flex-1 py-1.5 text-xs rounded-md transition-all font-medium"
                 style={{
-                  background: mode === m ? "rgba(129,140,248,0.12)" : "transparent",
-                  color: mode === m ? "var(--accent)" : "var(--muted)",
-                  boxShadow: mode === m ? "inset 0 0 0 1px rgba(129,140,248,0.3)" : "none",
+                  background: mode === m ? "var(--card)" : "transparent",
+                  color: mode === m ? "var(--foreground)" : "var(--muted)",
+                  boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.15)" : "none",
                 }}
               >
                 {m === "url" ? "URL" : m === "text" ? "Texto" : "PDF"}
