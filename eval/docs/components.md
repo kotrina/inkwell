@@ -141,3 +141,43 @@ Card reutilizable para mostrar un artículo en listas y selectores.
 **Usos:**
 - `/articles` → con `onDelete` y `onTagsChange`, sin `onSelect`
 - `/generate/summary` y `/generate/content` → con `onSelect`, sin `onDelete` ni `onTagsChange`
+
+---
+
+## NoApiKeyBanner
+
+**Archivo:** `components/NoApiKeyBanner.tsx`
+
+Banner de aviso que aparece cuando el usuario no tiene API Key de IA configurada.
+
+**Props:** ninguna.
+
+**Comportamiento:**
+- Muestra un aviso amarillo con enlace directo a `/settings`
+- Se renderiza condicionalmente cuando `hasApiKey === false` (estado cargado desde `/api/settings`)
+
+**Dónde se usa:**
+- `app/dashboard/page.tsx`
+- `app/generate/summary/page.tsx`
+- `app/generate/content/page.tsx`
+
+---
+
+## SettingsPage (página)
+
+**Archivo:** `app/settings/page.tsx`
+
+Página de configuración de la API Key de IA.
+
+**Estado:**
+| State | Tipo | Descripción |
+|---|---|---|
+| `provider` | `"anthropic" \| "openai" \| "gemini"` | Proveedor seleccionado |
+| `apiKey` | `string` | Key introducida (nunca persiste en cliente) |
+| `hasKey` | `boolean \| null` | Si el usuario tiene ya una key guardada |
+| `currentProvider` | `Provider \| null` | Proveedor actualmente configurado |
+
+**API que consume:**
+- `GET /api/settings` → carga estado inicial (`provider`, `hasKey`)
+- `POST /api/settings` → guarda provider + key cifrada
+- `DELETE /api/settings` → elimina la key

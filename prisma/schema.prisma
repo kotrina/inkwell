@@ -36,17 +36,19 @@ model Session {
 }
 
 model User {
-  id             String          @id @default(cuid())
-  email          String          @unique
-  password       String?
-  name           String?
-  emailVerified  DateTime?
-  image          String?
-  accounts       Account[]
-  sessions       Session[]
-  articles       Article[]
-  knowledgeItems KnowledgeItem[]
-  createdAt      DateTime        @default(now())
+  id                 String          @id @default(cuid())
+  email              String          @unique
+  password           String?
+  name               String?
+  emailVerified      DateTime?
+  image              String?
+  aiProvider         String?         // "anthropic" | "openai" | "gemini"
+  aiApiKeyEncrypted  String?         @db.Text
+  accounts           Account[]
+  sessions           Session[]
+  articles           Article[]
+  knowledgeItems     KnowledgeItem[]
+  createdAt          DateTime        @default(now())
 }
 
 model VerificationToken {

@@ -1,6 +1,7 @@
 "use client";
 
 import { AppShell } from "@/components/AppShell";
+import { NoApiKeyBanner } from "@/components/NoApiKeyBanner";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -13,16 +14,19 @@ interface Stats {
 export default function DashboardPage() {
   const { data: session } = useSession();
   const [stats, setStats] = useState<Stats>({ articles: 0, knowledge: 0 });
+  const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
 
   useEffect(() => {
     Promise.all([
       fetch("/api/articles").then((r) => r.json()),
       fetch("/api/knowledge").then((r) => r.json()),
-    ]).then(([articles, knowledge]) => {
+      fetch("/api/settings").then((r) => r.json()),
+    ]).then(([articles, knowledge, settings]) => {
       setStats({
         articles: Array.isArray(articles) ? articles.length : 0,
         knowledge: Array.isArray(knowledge) ? knowledge.length : 0,
       });
+      setHasApiKey(settings.hasKey ?? false);
     });
   }, []);
 
@@ -31,6 +35,7 @@ export default function DashboardPage() {
   return (
     <AppShell>
       <div className="max-w-2xl">
+        {hasApiKey === false && <NoApiKeyBanner />}
         <h1 className="text-3xl font-bold mb-2" style={{ color: "var(--foreground)" }}>
           Bienvenido, {name}.
         </h1>

@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { anthropic, MODEL } from "@/lib/anthropic";
+import { generateText } from "@/lib/ai-client";
+import { getUserApiKey } from "@/app/api/settings/route";
 
 const RATE_LIMIT = new Map<string, number>();
 
@@ -36,6 +37,15 @@ export async function POST(req: Request) {
   if (!session?.user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
   const userId = (session.user as { id: string }).id;
+
+  // Verificar que el usuario tiene API Key configurada
+  const userAi = await getUserApiKey(userId);
+  if (!userAi) {
+    return NextResponse.json(
+      { error: "No tienes una API Key configurada. Ve a Configuración para añadirla.", code: "NO_API_KEY" },
+      { status: 402 }
+    );
+  }
 
   const now = Date.now();
   const lastRequest = RATE_LIMIT.get(userId) ?? 0;
@@ -87,17 +97,13 @@ ${formatInstruction}
 Fuentes de contenido:
 ${articlesText}`;
 
-    const message = await anthropic.messages.create({
-      model: MODEL,
-      max_tokens: 4096,
-      system: systemPrompt,
-      messages: [{ role: "user", content: userPrompt }],
+    const content = await generateText(userAi.provider, userAi.apiKey, {
+      systemPrompt,
+      userPrompt,
+      maxTokens: 4096,
     });
 
-    const content = message.content[0];
-    if (content.type !== "text") throw new Error("Respuesta inesperada");
-
-    return NextResponse.json({ content: content.text });
+    return NextResponse.json({ content });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error al generar el contenido";
     return NextResponse.json({ error: message }, { status: 500 });

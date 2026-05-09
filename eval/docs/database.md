@@ -1,6 +1,6 @@
 # Database
 
-_Última actualización: 2026-05-08_
+_Última actualización: 2026-05-09_
 
 ## Proveedor
 
@@ -40,6 +40,8 @@ Tabla central de usuarios. Compatible con el adapter de NextAuth.
 | `name` | `String?` | Nombre opcional |
 | `emailVerified` | `DateTime?` | Para magic link (no usado actualmente) |
 | `image` | `String?` | Avatar (no usado actualmente) |
+| `aiProvider` | `String?` | Proveedor de IA elegido: `anthropic`, `openai` o `gemini` |
+| `aiApiKeyEncrypted` | `Text?` | API Key cifrada con AES-256-GCM (nunca en claro) |
 | `createdAt` | `DateTime` | Fecha de registro |
 
 Relaciones: `accounts[]`, `sessions[]`, `articles[]`, `knowledgeItems[]`
