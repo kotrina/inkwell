@@ -1,6 +1,6 @@
 # Components
 
-_Última actualización: 2026-05-08_
+_Última actualización: 2026-05-09_
 
 Todos los componentes son **Client Components** (`"use client"`).
 Se encuentran en la carpeta `components/`.
@@ -89,6 +89,14 @@ Navegación lateral de la app.
 | ◎ | `/knowledge` | Conocimiento |
 | ✉ | `/generate/summary` | Resumen email |
 | ✒ | `/generate/content` | Generar contenido |
+
+**Sección inferior** (debajo del toggle de tema):
+
+| Elemento | Descripción |
+|---|---|
+| `ThemeToggle` | Cambia entre tema oscuro y claro |
+| `?` Manual de usuario | Link a `/manual` (resaltado con `var(--accent)` si está activo) |
+| Email + Cerrar sesión | Email del usuario y botón `signOut` |
 
 ---
 

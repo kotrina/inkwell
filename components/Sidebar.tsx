@@ -56,6 +56,18 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
       <div className="px-3 py-4 border-t space-y-3" style={{ borderColor: "var(--border)" }}>
         <ThemeToggle />
+        <Link
+          href="/manual"
+          onClick={onClose}
+          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors"
+          style={{
+            color: pathname === "/manual" ? "var(--accent)" : "var(--muted)",
+            background: pathname === "/manual" ? "rgba(129,140,248,0.1)" : "transparent",
+          }}
+        >
+          <span>?</span>
+          Manual de usuario
+        </Link>
         <div className="px-2">
           <p className="text-xs mb-1.5 truncate" style={{ color: "var(--muted)" }}>
             {session?.user?.email}
