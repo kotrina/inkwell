@@ -12,6 +12,7 @@ interface Article {
   url?: string | null;
   language: string;
   tags: string[];
+  status: string;
   createdAt: string;
 }
 
@@ -33,7 +34,7 @@ export default function ContentPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/articles?status=new,used").then((r) => r.json()),
+      fetch("/api/articles?status=all").then((r) => r.json()),
       fetch("/api/settings").then((r) => r.json()),
     ]).then(([data, settings]) => {
       if (Array.isArray(data)) setArticles(data);
@@ -142,9 +143,17 @@ export default function ContentPage() {
                 {articles.length === 0 && (
                   <p className="text-xs py-4 text-center" style={{ color: "var(--muted)" }}>No hay artículos</p>
                 )}
-                {articles.map((a) => (
+                {articles.filter((a) => a.status === "new").map((a) => (
                   <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} />
                 ))}
+                {articles.some((a) => a.status === "used") && (
+                  <>
+                    <p className="text-xs pt-1 pb-0.5" style={{ color: "var(--muted)" }}>— Ya usados —</p>
+                    {articles.filter((a) => a.status === "used").map((a) => (
+                      <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} dimmed />
+                    ))}
+                  </>
+                )}
               </div>
             </div>
 

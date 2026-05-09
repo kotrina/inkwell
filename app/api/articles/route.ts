@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { detectLanguage } from "@/lib/language";
 
-const VALID_STATUSES = ["new", "used", "archived"];
+const VALID_STATUSES = ["new", "used", "archived", "all"];
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
@@ -12,21 +12,17 @@ export async function GET(req: Request) {
 
   const userId = (session.user as { id: string }).id;
   const { searchParams } = new URL(req.url);
-  const statusParam = searchParams.get("status"); // "new" | "used" | "archived" | "new,used" | "all" | null
+  const status = searchParams.get("status") ?? "all";
 
-  // Construir filtro de status
-  let statusFilter: { status?: string | { in: string[] } } = {};
-  if (statusParam && statusParam !== "all") {
-    const values = statusParam.split(",").map((s) => s.trim()).filter((s) => VALID_STATUSES.includes(s));
-    if (values.length === 1) {
-      statusFilter = { status: values[0] };
-    } else if (values.length > 1) {
-      statusFilter = { status: { in: values } };
-    }
+  if (!VALID_STATUSES.includes(status)) {
+    return NextResponse.json({ error: "Estado no válido" }, { status: 400 });
   }
 
   const articles = await prisma.article.findMany({
-    where: { userId, ...statusFilter },
+    where: {
+      userId,
+      ...(status !== "all" ? { status } : {}),
+    },
     orderBy: { createdAt: "desc" },
     select: { id: true, title: true, url: true, language: true, tags: true, status: true, createdAt: true },
   });
