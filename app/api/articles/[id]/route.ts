@@ -27,9 +27,17 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const article = await prisma.article.findFirst({ where: { id, userId } });
   if (!article) return NextResponse.json({ error: "No encontrado" }, { status: 404 });
 
+  const VALID_STATUSES = ["new", "used", "archived"];
+  if (body.status !== undefined && !VALID_STATUSES.includes(body.status)) {
+    return NextResponse.json({ error: "Estado no válido" }, { status: 400 });
+  }
+
   const updated = await prisma.article.update({
     where: { id },
-    data: { tags: body.tags ?? article.tags },
+    data: {
+      tags: body.tags ?? article.tags,
+      ...(body.status !== undefined ? { status: body.status } : {}),
+    },
   });
 
   return NextResponse.json(updated);

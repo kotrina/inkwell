@@ -12,6 +12,7 @@ interface Article {
   url?: string | null;
   language: string;
   tags: string[];
+  status: string;
   createdAt: string;
 }
 
@@ -26,7 +27,7 @@ export default function SummaryPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/articles").then((r) => r.json()),
+      fetch("/api/articles?status=all").then((r) => r.json()),
       fetch("/api/settings").then((r) => r.json()),
     ]).then(([data, settings]) => {
       if (Array.isArray(data)) setArticles(data);
@@ -113,12 +114,22 @@ export default function SummaryPage() {
             <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
               {articles.length === 0 && (
                 <p className="text-sm text-center py-8" style={{ color: "var(--muted)" }}>
-                  No hay artículos. Ve a /articles para añadir.
+                  No hay artículos. Ve a Artículos para añadir.
                 </p>
               )}
-              {articles.map((a) => (
+              {/* Nuevos */}
+              {articles.filter((a) => a.status === "new").map((a) => (
                 <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} />
               ))}
+              {/* Usados — separados visualmente */}
+              {articles.some((a) => a.status === "used") && (
+                <>
+                  <p className="text-xs pt-2 pb-1" style={{ color: "var(--muted)" }}>— Ya usados —</p>
+                  {articles.filter((a) => a.status === "used").map((a) => (
+                    <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} dimmed />
+                  ))}
+                </>
+              )}
             </div>
             <button
               onClick={handleGenerate}
