@@ -33,7 +33,7 @@ export default function ContentPage() {
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/articles").then((r) => r.json()),
+      fetch("/api/articles?status=new,used").then((r) => r.json()),
       fetch("/api/settings").then((r) => r.json()),
     ]).then(([data, settings]) => {
       if (Array.isArray(data)) setArticles(data);

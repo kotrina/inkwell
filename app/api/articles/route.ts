@@ -4,15 +4,31 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { detectLanguage } from "@/lib/language";
 
-export async function GET() {
+const VALID_STATUSES = ["new", "used", "archived"];
+
+export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
   const userId = (session.user as { id: string }).id;
+  const { searchParams } = new URL(req.url);
+  const statusParam = searchParams.get("status"); // "new" | "used" | "archived" | "new,used" | "all" | null
+
+  // Construir filtro de status
+  let statusFilter: { status?: string | { in: string[] } } = {};
+  if (statusParam && statusParam !== "all") {
+    const values = statusParam.split(",").map((s) => s.trim()).filter((s) => VALID_STATUSES.includes(s));
+    if (values.length === 1) {
+      statusFilter = { status: values[0] };
+    } else if (values.length > 1) {
+      statusFilter = { status: { in: values } };
+    }
+  }
+
   const articles = await prisma.article.findMany({
-    where: { userId },
+    where: { userId, ...statusFilter },
     orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, url: true, language: true, tags: true, createdAt: true },
+    select: { id: true, title: true, url: true, language: true, tags: true, status: true, createdAt: true },
   });
 
   return NextResponse.json(articles);
@@ -41,6 +57,7 @@ export async function POST(req: Request) {
         url: url || null,
         language,
         tags: tags || [],
+        status: "new",
         userId,
       },
     });
