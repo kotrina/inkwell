@@ -53,7 +53,11 @@ export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChang
             <span className="text-xs" style={{ color: "var(--muted)" }}>{date}</span>
           </div>
 
-          <h3 className="text-sm font-medium leading-snug mb-2" style={{ color: "var(--foreground)" }}>
+          <h3
+            className="text-sm font-medium leading-snug mb-2 line-clamp-2"
+            style={{ color: "var(--foreground)" }}
+            title={article.title}
+          >
             {article.url ? (
               <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
                 {article.title}
