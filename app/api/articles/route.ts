@@ -4,15 +4,27 @@ import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { detectLanguage } from "@/lib/language";
 
-export async function GET() {
+const VALID_STATUSES = ["new", "used", "archived", "all"];
+
+export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
 
   const userId = (session.user as { id: string }).id;
+  const { searchParams } = new URL(req.url);
+  const status = searchParams.get("status") ?? "all";
+
+  if (!VALID_STATUSES.includes(status)) {
+    return NextResponse.json({ error: "Estado no válido" }, { status: 400 });
+  }
+
   const articles = await prisma.article.findMany({
-    where: { userId },
+    where: {
+      userId,
+      ...(status !== "all" ? { status } : {}),
+    },
     orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, url: true, language: true, tags: true, createdAt: true },
+    select: { id: true, title: true, url: true, language: true, tags: true, status: true, createdAt: true },
   });
 
   return NextResponse.json(articles);
@@ -41,6 +53,7 @@ export async function POST(req: Request) {
         url: url || null,
         language,
         tags: tags || [],
+        status: "new",
         userId,
       },
     });
