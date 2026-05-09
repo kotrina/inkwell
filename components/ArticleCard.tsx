@@ -8,6 +8,7 @@ interface Article {
   url?: string | null;
   language: string;
   tags: string[];
+  status?: string;
   createdAt: string;
 }
 
@@ -17,12 +18,22 @@ interface Props {
   onSelect?: (id: string, checked: boolean) => void;
   onDelete?: (id: string) => void;
   onTagsChange?: (id: string, tags: string[]) => void;
+  onStatusChange?: (id: string, status: string) => void;
+  dimmed?: boolean;
 }
 
-export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChange }: Props) {
+const STATUS_ACTIONS: Record<string, { label: string; next: string }[]> = {
+  new:      [{ label: "Archivar", next: "archived" }],
+  used:     [{ label: "Marcar como nuevo", next: "new" }, { label: "Archivar", next: "archived" }],
+  archived: [{ label: "Restaurar", next: "new" }],
+};
+
+export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChange, onStatusChange, dimmed }: Props) {
   const date = new Date(article.createdAt).toLocaleDateString("es-ES", {
     day: "numeric", month: "short", year: "numeric",
   });
+
+  const actions = article.status ? STATUS_ACTIONS[article.status] ?? [] : [];
 
   return (
     <div
@@ -31,6 +42,7 @@ export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChang
         background: "var(--card)",
         borderColor: selected ? "var(--accent)" : "var(--border)",
         boxShadow: selected ? "0 0 0 1px var(--accent)" : "none",
+        opacity: dimmed ? 0.55 : 1,
       }}
     >
       <div className="flex items-start gap-3">
@@ -51,6 +63,22 @@ export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChang
               {LANGUAGE_LABELS[article.language] ?? article.language.toUpperCase()}
             </span>
             <span className="text-xs" style={{ color: "var(--muted)" }}>{date}</span>
+            {article.status === "used" && (
+              <span
+                className="text-xs px-1.5 py-0.5 rounded"
+                style={{ background: "rgba(34,197,94,0.12)", color: "#16a34a" }}
+              >
+                usado
+              </span>
+            )}
+            {article.status === "archived" && (
+              <span
+                className="text-xs px-1.5 py-0.5 rounded"
+                style={{ background: "var(--subtle)", color: "var(--muted)" }}
+              >
+                archivado
+              </span>
+            )}
           </div>
 
           <h3
@@ -83,16 +111,28 @@ export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChang
           </div>
         </div>
 
-        {onDelete && (
-          <button
-            onClick={() => onDelete(article.id)}
-            className="text-xs shrink-0 transition-colors hover:text-red-400"
-            style={{ color: "var(--muted)" }}
-            title="Eliminar"
-          >
-            ✕
-          </button>
-        )}
+        <div className="flex items-center gap-2 shrink-0">
+          {onStatusChange && actions.map((action) => (
+            <button
+              key={action.next}
+              onClick={() => onStatusChange(article.id, action.next)}
+              className="text-xs transition-colors hover:underline"
+              style={{ color: "var(--muted)" }}
+            >
+              {action.label}
+            </button>
+          ))}
+          {onDelete && (
+            <button
+              onClick={() => onDelete(article.id)}
+              className="text-xs transition-colors hover:text-red-400"
+              style={{ color: "var(--muted)" }}
+              title="Eliminar"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );

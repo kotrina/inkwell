@@ -11,13 +11,23 @@ interface Article {
   url?: string | null;
   language: string;
   tags: string[];
+  status: string;
   createdAt: string;
 }
 
 type InputMode = "url" | "text" | "pdf";
+type StatusTab = "new" | "used" | "archived" | "all";
+
+const STATUS_TABS: { value: StatusTab; label: string }[] = [
+  { value: "new", label: "Nuevos" },
+  { value: "used", label: "Usados" },
+  { value: "archived", label: "Archivados" },
+  { value: "all", label: "Todos" },
+];
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const [activeTab, setActiveTab] = useState<StatusTab>("new");
   const [mode, setMode] = useState<InputMode>("url");
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
@@ -26,10 +36,10 @@ export default function ArticlesPage() {
   const [scraping, setScraping] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => { fetchArticles(); }, []);
+  useEffect(() => { fetchArticles(activeTab); }, [activeTab]);
 
-  async function fetchArticles() {
-    const res = await fetch("/api/articles");
+  async function fetchArticles(status: StatusTab) {
+    const res = await fetch(`/api/articles?status=${status}`);
     if (res.ok) setArticles(await res.json());
   }
 
@@ -85,9 +95,12 @@ export default function ArticlesPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setArticles((prev) => [data, ...prev]);
       setTitle(""); setContent(""); setUrl("");
       toast.success("Artículo guardado");
+      // Refrescar si estamos en la tab "new" o "all"
+      if (activeTab === "new" || activeTab === "all") {
+        setArticles((prev) => [data, ...prev]);
+      }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Error al guardar");
     } finally {
@@ -98,7 +111,10 @@ export default function ArticlesPage() {
   async function handleDelete(id: string) {
     if (!confirm("¿Eliminar este artículo?")) return;
     const res = await fetch(`/api/articles/${id}`, { method: "DELETE" });
-    if (res.ok) { setArticles((prev) => prev.filter((a) => a.id !== id)); toast.success("Artículo eliminado"); }
+    if (res.ok) {
+      setArticles((prev) => prev.filter((a) => a.id !== id));
+      toast.success("Artículo eliminado");
+    }
   }
 
   async function handleTagsChange(id: string, tags: string[]) {
@@ -110,15 +126,28 @@ export default function ArticlesPage() {
     setArticles((prev) => prev.map((a) => (a.id === id ? { ...a, tags } : a)));
   }
 
+  async function handleStatusChange(id: string, status: string) {
+    const res = await fetch(`/api/articles/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status }),
+    });
+    if (res.ok) {
+      setArticles((prev) => prev.filter((a) => a.id !== id));
+      const labels: Record<string, string> = { new: "nuevo", used: "usado", archived: "archivado" };
+      toast.success(`Marcado como ${labels[status] ?? status}`);
+    }
+  }
+
   return (
     <AppShell>
       <div className="max-w-3xl">
         <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>Artículos</h1>
 
+        {/* Formulario añadir */}
         <div className="rounded-xl p-6 border mb-8" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
           <h2 className="text-xs font-medium mb-4" style={{ color: "var(--muted)" }}>AÑADIR ARTÍCULO</h2>
 
-          {/* Mode tabs */}
           <div className="flex gap-1 mb-4 p-1 rounded-lg" style={{ background: "var(--subtle)" }}>
             {(["url", "text", "pdf"] as InputMode[]).map((m) => (
               <button
@@ -201,10 +230,32 @@ export default function ArticlesPage() {
           </div>
         </div>
 
+        {/* Tabs de estado */}
+        <div className="flex gap-1 mb-4 p-1 rounded-lg w-fit" style={{ background: "var(--subtle)" }}>
+          {STATUS_TABS.map((tab) => (
+            <button
+              key={tab.value}
+              onClick={() => setActiveTab(tab.value)}
+              className="px-4 py-1.5 text-xs rounded-md transition-all font-medium"
+              style={{
+                background: activeTab === tab.value ? "var(--card)" : "transparent",
+                color: activeTab === tab.value ? "var(--foreground)" : "var(--muted)",
+                boxShadow: activeTab === tab.value ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Lista de artículos */}
         <div className="space-y-3">
           {articles.length === 0 && (
             <p className="text-sm text-center py-8" style={{ color: "var(--muted)" }}>
-              Aún no hay artículos. ¡Añade el primero!
+              {activeTab === "new" && "No hay artículos nuevos."}
+              {activeTab === "used" && "No hay artículos usados todavía."}
+              {activeTab === "archived" && "No hay artículos archivados."}
+              {activeTab === "all" && "Aún no hay artículos. ¡Añade el primero!"}
             </p>
           )}
           {articles.map((article) => (
@@ -213,6 +264,7 @@ export default function ArticlesPage() {
               article={article}
               onDelete={handleDelete}
               onTagsChange={handleTagsChange}
+              onStatusChange={handleStatusChange}
             />
           ))}
         </div>
