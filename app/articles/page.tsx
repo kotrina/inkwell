@@ -349,10 +349,10 @@ export default function ArticlesPage() {
           <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--border)" }}>
             {/* Header */}
             <div
-              className="grid text-xs font-medium px-4 py-2.5"
+              className="grid text-xs font-medium px-4 py-2.5 tracking-wide"
               style={{
-                background: "var(--subtle)",
-                color: "var(--muted)",
+                background: "var(--table-header)",
+                color: "var(--table-header-text)",
                 gridTemplateColumns: "1fr 140px 52px 80px 70px 80px",
               }}
             >
@@ -463,7 +463,7 @@ export default function ArticlesPage() {
             {/* Footer con conteo */}
             <div
               className="px-4 py-2 text-xs"
-              style={{ background: "var(--subtle)", borderTop: "1px solid var(--border)", color: "var(--muted)" }}
+              style={{ background: "var(--table-header)", borderTop: "1px solid var(--border)", color: "var(--table-header-text)" }}
             >
               {filtered.length} {filtered.length === 1 ? "artículo" : "artículos"}
               {filtered.length !== articles.length && ` de ${articles.length}`}
