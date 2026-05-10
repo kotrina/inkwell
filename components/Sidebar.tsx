@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { ThemeToggle } from "./ThemeToggle";
 
 const navItems = [
   { href: "/dashboard", label: "Inicio", icon: "⊞" },
@@ -55,7 +54,6 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
       </nav>
 
       <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: "var(--border)" }}>
-        <ThemeToggle />
         {[
           { href: "/settings", label: "Configuración", icon: "⚙" },
           { href: "/manual", label: "Manual de usuario", icon: "?" },
