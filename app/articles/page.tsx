@@ -189,16 +189,16 @@ export default function ArticlesPage() {
         <div className="rounded-xl p-6 border mb-8" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
           <h2 className="text-xs font-medium mb-4" style={{ color: "var(--muted)" }}>AÑADIR ARTÍCULO</h2>
 
-          <div className="flex gap-1 mb-4 p-1 rounded-lg" style={{ background: "var(--subtle)" }}>
+          <div className="flex gap-1 mb-4 p-1 rounded-lg" style={{ background: "var(--tab-warm-bg)" }}>
             {(["url", "text", "pdf"] as InputMode[]).map((m) => (
               <button
                 key={m}
                 onClick={() => setMode(m)}
                 className="flex-1 py-1.5 text-xs rounded-md transition-all font-medium"
                 style={{
-                  background: mode === m ? "var(--card)" : "transparent",
-                  color: mode === m ? "var(--foreground)" : "var(--muted)",
-                  boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.15)" : "none",
+                  background: mode === m ? "var(--tab-warm-active)" : "transparent",
+                  color: mode === m ? "var(--foreground)" : "var(--table-header-text)",
+                  boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
                 }}
               >
                 {m === "url" ? "URL" : m === "text" ? "Texto" : "PDF"}
@@ -274,15 +274,15 @@ export default function ArticlesPage() {
 
         {/* Tabs de estado */}
         <div className="flex items-center justify-between mb-4 gap-4 flex-wrap">
-          <div className="flex gap-1 p-1 rounded-lg w-fit" style={{ background: "var(--subtle)" }}>
+          <div className="flex gap-1 p-1 rounded-lg w-fit" style={{ background: "var(--tab-warm-bg)" }}>
             {STATUS_TABS.map((tab) => (
               <button
                 key={tab.value}
                 onClick={() => setActiveTab(tab.value)}
                 className="px-4 py-1.5 text-xs rounded-md transition-all font-medium"
                 style={{
-                  background: activeTab === tab.value ? "var(--card)" : "transparent",
-                  color: activeTab === tab.value ? "var(--foreground)" : "var(--muted)",
+                  background: activeTab === tab.value ? "var(--tab-warm-active)" : "transparent",
+                  color: activeTab === tab.value ? "var(--foreground)" : "var(--table-header-text)",
                   boxShadow: activeTab === tab.value ? "0 1px 2px rgba(0,0,0,0.08)" : "none",
                 }}
               >
@@ -380,7 +380,7 @@ export default function ArticlesPage() {
                     borderTop: i > 0 ? `1px solid var(--border)` : "none",
                     background: "var(--card)",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--subtle)")}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--table-row-hover)")}
                   onMouseLeave={(e) => (e.currentTarget.style.background = "var(--card)")}
                 >
                   {/* Título */}

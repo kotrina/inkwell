@@ -15,6 +15,9 @@
   --tag-bg: #1e293b;
   --table-header: #1c1814;
   --table-header-text: #9c9389;
+  --tab-warm-bg: #1e1b18;
+  --tab-warm-active: #2c2720;
+  --table-row-hover: #1f1c18;
 }
 
 /* ── Light theme ── */
@@ -34,6 +37,9 @@
   --btn-secondary-text: #475569;
   --table-header: #f0ebe3;
   --table-header-text: #8a7e72;
+  --tab-warm-bg: #ede8e0;
+  --tab-warm-active: #faf7f2;
+  --table-row-hover: #f7f2ea;
 }
 
 /* ── Dark theme extras ── */
