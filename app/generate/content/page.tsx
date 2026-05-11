@@ -3,7 +3,7 @@
 import { AppShell } from "@/components/AppShell";
 import { ArticleCard } from "@/components/ArticleCard";
 import { NoApiKeyBanner } from "@/components/NoApiKeyBanner";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import toast from "react-hot-toast";
 
 interface Article {
@@ -31,6 +31,8 @@ export default function ContentPage() {
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
+  const [search, setSearch] = useState("");
+  const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     Promise.all([
@@ -41,6 +43,26 @@ export default function ContentPage() {
       setHasApiKey(settings.hasKey ?? false);
     });
   }, []);
+
+  const allTags = useMemo(() => {
+    const set = new Set<string>();
+    articles.forEach((a) => a.tags.forEach((t) => set.add(t)));
+    return Array.from(set).sort();
+  }, [articles]);
+
+  const filteredArticles = useMemo(() => articles.filter((a) => {
+    const matchSearch = !search || a.title.toLowerCase().includes(search.toLowerCase());
+    const matchTags = activeTags.size === 0 || [...activeTags].every((t) => a.tags.includes(t));
+    return matchSearch && matchTags;
+  }), [articles, search, activeTags]);
+
+  function toggleTag(tag: string) {
+    setActiveTags((prev) => {
+      const next = new Set(prev);
+      next.has(tag) ? next.delete(tag) : next.add(tag);
+      return next;
+    });
+  }
 
   function toggleSelect(id: string, checked: boolean) {
     setSelected((prev) => {
@@ -136,23 +158,59 @@ export default function ContentPage() {
             </div>
 
             <div>
-              <h2 className="text-xs font-medium mb-3" style={{ color: "var(--muted)" }}>
+              <h2 className="text-xs font-medium mb-2" style={{ color: "var(--muted)" }}>
                 ARTÍCULOS ({selected.size} seleccionados)
               </h2>
-              <div className="space-y-2 max-h-64 overflow-y-auto">
+
+              {/* Search */}
+              <div className="relative mb-2">
+                <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs" style={{ color: "var(--muted)" }}>🔍</span>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Buscar..."
+                  className="w-full pl-7 pr-3 py-1.5 rounded-md text-xs outline-none border transition-colors"
+                  style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
+                />
+              </div>
+
+              {/* Tag filters */}
+              {allTags.length > 0 && (
+                <div className="flex flex-wrap gap-1 mb-2">
+                  {allTags.map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className="px-2 py-0.5 rounded-full text-xs font-medium transition-all"
+                      style={{
+                        background: activeTags.has(tag) ? "var(--accent)" : "var(--subtle)",
+                        color: activeTags.has(tag) ? "#ffffff" : "var(--muted)",
+                      }}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <div className="space-y-2 max-h-52 overflow-y-auto">
                 {articles.length === 0 && (
                   <p className="text-xs py-4 text-center" style={{ color: "var(--muted)" }}>No hay artículos</p>
                 )}
-                {articles.filter((a) => a.status === "new").map((a) => (
+                {filteredArticles.filter((a) => a.status === "new").map((a) => (
                   <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} />
                 ))}
-                {articles.some((a) => a.status === "used") && (
+                {filteredArticles.some((a) => a.status === "used") && (
                   <>
                     <p className="text-xs pt-1 pb-0.5" style={{ color: "var(--muted)" }}>— Ya usados —</p>
-                    {articles.filter((a) => a.status === "used").map((a) => (
+                    {filteredArticles.filter((a) => a.status === "used").map((a) => (
                       <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} dimmed />
                     ))}
                   </>
+                )}
+                {articles.length > 0 && filteredArticles.length === 0 && (
+                  <p className="text-xs text-center py-3" style={{ color: "var(--muted)" }}>Sin resultados.</p>
                 )}
               </div>
             </div>
