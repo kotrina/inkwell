@@ -41,6 +41,7 @@ export default function SummaryPage() {
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
   const [search, setSearch] = useState("");
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
+  const [activeTab, setActiveTab] = useState<"new" | "used" | "all">("new");
 
   useEffect(() => {
     Promise.all([
@@ -59,12 +60,12 @@ export default function SummaryPage() {
   }, [articles]);
 
   const filtered = useMemo(() => articles.filter((a) => {
+    const matchTab = activeTab === "all" || a.status === activeTab;
     const matchSearch = !search || a.title.toLowerCase().includes(search.toLowerCase());
     const matchTags = activeTags.size === 0 || [...activeTags].every((t) => a.tags.includes(t));
-    return matchSearch && matchTags;
-  }), [articles, search, activeTags]);
+    return matchTab && matchSearch && matchTags;
+  }), [articles, search, activeTags, activeTab]);
 
-  // Ordenar: nuevos primero, luego usados
   const sortedFiltered = useMemo(() => [
     ...filtered.filter((a) => a.status === "new"),
     ...filtered.filter((a) => a.status !== "new"),
@@ -154,8 +155,30 @@ export default function SummaryPage() {
 
         {/* Bloque 1 — Tabla de selección */}
         <div className="mb-6">
-          {/* Búsqueda + filtros */}
+          {/* Tabs + búsqueda + filtros */}
           <div className="flex items-center gap-3 mb-3 flex-wrap">
+            {/* Tabs de estado */}
+            <div className="flex gap-1 p-1 rounded-lg shrink-0" style={{ background: "var(--tab-warm-bg)" }}>
+              {([
+                { value: "new", label: "Nuevos" },
+                { value: "used", label: "Usados" },
+                { value: "all", label: "Todos" },
+              ] as { value: "new" | "used" | "all"; label: string }[]).map((tab) => (
+                <button
+                  key={tab.value}
+                  onClick={() => setActiveTab(tab.value)}
+                  className="px-3 py-1.5 text-xs rounded-md transition-all font-medium"
+                  style={{
+                    background: activeTab === tab.value ? "var(--tab-warm-active)" : "transparent",
+                    color: activeTab === tab.value ? "var(--foreground)" : "var(--table-header-text)",
+                    boxShadow: activeTab === tab.value ? "0 1px 2px rgba(0,0,0,0.08)" : "none",
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+
             <div className="relative flex-1 min-w-48 max-w-xs">
               <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs" style={{ color: "var(--muted)" }}>🔍</span>
               <input
