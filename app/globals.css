@@ -1,24 +1,7 @@
 @import "tailwindcss";
 
-/* ── Dark theme (default) ── */
-:root,
-[data-theme="dark"] {
-  --background: #0f0f1a;
-  --foreground: #e2e8f0;
-  --sidebar: #1a1a2e;
-  --border: #1e293b;
-  --accent: #818cf8;
-  --accent-hover: #6366f1;
-  --muted: #64748b;
-  --card: #16213e;
-  --input-bg: #1e293b;
-  --tag-bg: #1e293b;
-  --table-header: #1c1814;
-  --table-header-text: #9c9389;
-}
-
-/* ── Light theme ── */
-[data-theme="light"] {
+/* ── Único tema: claro ── */
+:root {
   --background: #f8f7f4;
   --foreground: #1e293b;
   --sidebar: #ffffff;
@@ -34,21 +17,15 @@
   --btn-secondary-text: #475569;
   --table-header: #f0ebe3;
   --table-header-text: #8a7e72;
-}
-
-/* ── Dark theme extras ── */
-:root,
-[data-theme="dark"] {
-  --subtle: #1e293b;
-  --btn-secondary: #334155;
-  --btn-secondary-text: #e2e8f0;
+  --tab-warm-bg: #ede8e0;
+  --tab-warm-active: #faf7f2;
+  --table-row-hover: #f7f2ea;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Georgia, "Times New Roman", serif;
-  transition: background 0.2s ease, color 0.2s ease;
 }
 
 * {
