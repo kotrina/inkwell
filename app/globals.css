@@ -2,6 +2,7 @@
 
 /* ── Único tema: claro ── */
 :root {
+  color-scheme: light;
   --background: #f8f7f4;
   --foreground: #1e293b;
   --sidebar: #ffffff;
