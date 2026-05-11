@@ -41,11 +41,11 @@ export default function SummaryPage() {
   const [hasApiKey, setHasApiKey] = useState<boolean | null>(null);
   const [search, setSearch] = useState("");
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
-  const [activeTab, setActiveTab] = useState<"new" | "used" | "all">("new");
+  const [activeTab, setActiveTab] = useState<"new" | "used" | "archived" | "all">("new");
 
   useEffect(() => {
     Promise.all([
-      fetch("/api/articles?status=new,used").then((r) => r.json()),
+      fetch("/api/articles?status=all").then((r) => r.json()),
       fetch("/api/settings").then((r) => r.json()),
     ]).then(([data, settings]) => {
       if (Array.isArray(data)) setArticles(data);
@@ -160,10 +160,11 @@ export default function SummaryPage() {
             {/* Tabs de estado */}
             <div className="flex gap-1 p-1 rounded-lg shrink-0" style={{ background: "var(--tab-warm-bg)" }}>
               {([
-                { value: "new", label: "Nuevos" },
-                { value: "used", label: "Usados" },
-                { value: "all", label: "Todos" },
-              ] as { value: "new" | "used" | "all"; label: string }[]).map((tab) => (
+                { value: "new",      label: "Nuevos" },
+                { value: "used",     label: "Usados" },
+                { value: "archived", label: "Archivados" },
+                { value: "all",      label: "Todos" },
+              ] as { value: "new" | "used" | "archived" | "all"; label: string }[]).map((tab) => (
                 <button
                   key={tab.value}
                   onClick={() => setActiveTab(tab.value)}
