@@ -28,7 +28,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
     >
       <div className="px-6 py-5 border-b" style={{ borderColor: "var(--border)" }}>
         <span className="text-lg font-bold tracking-tight" style={{ color: "var(--accent)" }}>
-          ✒ Inkwell
+          ✒ Klipwise
         </span>
       </div>
 

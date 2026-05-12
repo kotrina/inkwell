@@ -3,7 +3,7 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Inkwell — Article Manager",
+  title: "Klipwise — Article Manager",
   description: "Recopila artículos y genera contenido con tu voz",
 };
 

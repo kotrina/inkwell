@@ -22,7 +22,7 @@
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "franc-min": "^6.2.0",
-    "jsdom": "^29.0.2",
+    "linkedom": "^0.18.12",
     "next": "16.2.4",
     "next-auth": "^4.24.14",
     "next-themes": "^0.4.6",
@@ -39,7 +39,6 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
-    "@types/jsdom": "^28.0.1",
     "@types/node": "^20.19.39",
     "@types/react": "^19",
     "@types/react-dom": "^19",
