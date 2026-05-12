@@ -19,12 +19,12 @@ export async function POST(req: Request) {
     const htmlContent = summary
       .split("\n")
       .map((line: string) => {
-        if (line.startsWith("## ")) return `<h2 style="color:#e2e8f0;margin-top:24px">${line.slice(3)}</h2>`;
-        if (line.startsWith("# ")) return `<h1 style="color:#f8fafc;margin-top:32px">${line.slice(2)}</h1>`;
-        if (line.startsWith("- ") || line.startsWith("* ")) return `<li style="margin:4px 0">${line.slice(2)}</li>`;
-        if (line.startsWith("**") && line.endsWith("**")) return `<strong>${line.slice(2, -2)}</strong>`;
+        if (line.startsWith("## ")) return `<h2 style="color:#1e293b;font-size:18px;margin-top:28px;margin-bottom:8px;font-family:Georgia,serif">${line.slice(3)}</h2>`;
+        if (line.startsWith("# "))  return `<h1 style="color:#1e293b;font-size:22px;margin-top:32px;margin-bottom:10px;font-family:Georgia,serif">${line.slice(2)}</h1>`;
+        if (line.startsWith("- ") || line.startsWith("* ")) return `<li style="margin:5px 0;color:#334155;line-height:1.6">${line.slice(2)}</li>`;
+        if (line.startsWith("**") && line.endsWith("**")) return `<strong style="color:#1e293b">${line.slice(2, -2)}</strong>`;
         if (line.trim() === "") return "<br/>";
-        return `<p style="margin:8px 0;line-height:1.6">${line}</p>`;
+        return `<p style="margin:8px 0;line-height:1.7;color:#334155">${line}</p>`;
       })
       .join("\n");
 
@@ -33,14 +33,26 @@ export async function POST(req: Request) {
       to: userEmail,
       subject: `Inkwell — Resumen de artículos`,
       html: `
-        <div style="font-family:Georgia,serif;max-width:640px;margin:0 auto;background:#1a1a2e;color:#e2e8f0;padding:40px;border-radius:8px">
-          <div style="border-bottom:1px solid #334155;padding-bottom:16px;margin-bottom:24px">
-            <h1 style="margin:0;font-size:24px;color:#818cf8">✒ Inkwell</h1>
-            <p style="margin:4px 0 0;color:#94a3b8;font-size:14px">Tu resumen editorial</p>
-          </div>
-          ${htmlContent}
-          <div style="border-top:1px solid #334155;padding-top:16px;margin-top:32px;font-size:12px;color:#64748b">
-            Generado con Inkwell · <a href="${process.env.NEXTAUTH_URL}" style="color:#818cf8">Abrir app</a>
+        <div style="background:#f0ebe3;padding:32px 0;font-family:Georgia,serif">
+          <div style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0">
+
+            <!-- Header -->
+            <div style="background:#f8f7f4;padding:24px 32px;border-bottom:1px solid #e2e8f0">
+              <p style="margin:0;font-size:20px;font-weight:bold;color:#6366f1;font-family:Georgia,serif">✒ Inkwell</p>
+              <p style="margin:4px 0 0;color:#94a3b8;font-size:13px">Tu resumen editorial</p>
+            </div>
+
+            <!-- Contenido -->
+            <div style="padding:32px;color:#334155;font-size:15px;line-height:1.7">
+              ${htmlContent}
+            </div>
+
+            <!-- Footer -->
+            <div style="background:#f8f7f4;padding:16px 32px;border-top:1px solid #e2e8f0;font-size:12px;color:#94a3b8">
+              Generado con Inkwell ·
+              <a href="${process.env.NEXTAUTH_URL}" style="color:#6366f1;text-decoration:none">Abrir app</a>
+            </div>
+
           </div>
         </div>
       `,
