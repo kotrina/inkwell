@@ -57,7 +57,7 @@ export async function generateText(
   if (provider === "gemini") {
     const client = new GoogleGenerativeAI(apiKey);
     const model = client.getGenerativeModel({
-      model: "gemini-2.0-flash-lite",
+      model: "gemini-2.5-flash",
       systemInstruction: systemPrompt,
     });
     const result = await model.generateContent(userPrompt);
