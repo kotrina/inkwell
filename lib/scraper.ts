@@ -1,5 +1,5 @@
 import { Readability } from "@mozilla/readability";
-import { JSDOM } from "jsdom";
+import { parseHTML } from "linkedom";
 
 export async function scrapeUrl(url: string): Promise<{ title: string; content: string }> {
   const response = await fetch(url, {
@@ -14,8 +14,8 @@ export async function scrapeUrl(url: string): Promise<{ title: string; content: 
   }
 
   const html = await response.text();
-  const dom = new JSDOM(html, { url });
-  const reader = new Readability(dom.window.document);
+  const { document } = parseHTML(html);
+  const reader = new Readability(document as unknown as Document);
   const article = reader.parse();
 
   if (!article) {
