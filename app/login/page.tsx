@@ -41,7 +41,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center px-4" style={{ background: "var(--background)" }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
-          <h1 className="text-4xl font-bold mb-2" style={{ color: "var(--accent)" }}>✒ Inkwell</h1>
+          <h1 className="text-4xl font-bold mb-2" style={{ color: "var(--accent)" }}>✒ Klipwise</h1>
           <p className="text-sm" style={{ color: "var(--muted)" }}>Tu biblioteca editorial personal</p>
         </div>
 

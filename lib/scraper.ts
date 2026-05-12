@@ -4,7 +4,7 @@ import { JSDOM } from "jsdom";
 export async function scrapeUrl(url: string): Promise<{ title: string; content: string }> {
   const response = await fetch(url, {
     headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; Inkwell/1.0)",
+      "User-Agent": "Mozilla/5.0 (compatible; Klipwise/1.0)",
     },
     signal: AbortSignal.timeout(15000),
   });

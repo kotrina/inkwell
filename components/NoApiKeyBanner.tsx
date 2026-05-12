@@ -15,7 +15,7 @@ export function NoApiKeyBanner() {
       <span className="text-base mt-0.5">⚠️</span>
       <div>
         <span className="font-semibold">Sin API Key de IA configurada.</span>{" "}
-        Inkwell funciona como almacén de contenido, pero la generación de resúmenes y contenido no está disponible.{" "}
+        Klipwise funciona como almacén de contenido, pero la generación de resúmenes y contenido no está disponible.{" "}
         <Link
           href="/settings"
           className="underline font-medium"

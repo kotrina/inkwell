@@ -60,7 +60,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           >
             ☰
           </button>
-          <span className="font-bold" style={{ color: "var(--accent)" }}>✒ Inkwell</span>
+          <span className="font-bold" style={{ color: "var(--accent)" }}>✒ Klipwise</span>
         </div>
         <div className="p-4 lg:p-8">{children}</div>
       </main>
