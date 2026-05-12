@@ -1,14 +1,14 @@
-# Manual de usuario — Inkwell
+# Manual de usuario — Klipwise
 
 _Última actualización: 2026-05-08_
 
 ---
 
-## ¿Qué es Inkwell?
+## ¿Qué es Klipwise?
 
-Inkwell es tu biblioteca editorial personal. Te permite guardar artículos, documentos y páginas web, y usarlos para generar resúmenes por email o contenido para redes sociales, escrito con tu propia voz.
+Klipwise es tu biblioteca editorial personal. Te permite guardar artículos, documentos y páginas web, y usarlos para generar resúmenes por email o contenido para redes sociales, escrito con tu propia voz.
 
-**Lo que puedes hacer con Inkwell:**
+**Lo que puedes hacer con Klipwise:**
 
 - Guardar artículos desde una URL, pegando texto o subiendo un PDF.
 - Etiquetar y organizar tus artículos.
@@ -20,7 +20,7 @@ Inkwell es tu biblioteca editorial personal. Te permite guardar artículos, docu
 
 ## 1. Registro e inicio de sesión
 
-Al abrir Inkwell por primera vez verás la pantalla de acceso.
+Al abrir Klipwise por primera vez verás la pantalla de acceso.
 
 ### Crear una cuenta
 
@@ -34,7 +34,7 @@ Al abrir Inkwell por primera vez verás la pantalla de acceso.
 2. Introduce tu email y contraseña.
 3. Haz clic en **"Entrar"**.
 
-> ⚠️ Si introduces una contraseña incorrecta, verás el mensaje "Credenciales incorrectas". Inkwell no tiene recuperación de contraseña por el momento — guarda bien tus credenciales.
+> ⚠️ Si introduces una contraseña incorrecta, verás el mensaje "Credenciales incorrectas". Klipwise no tiene recuperación de contraseña por el momento — guarda bien tus credenciales.
 
 ---
 
@@ -61,15 +61,15 @@ Hay tres formas de añadir contenido:
 
 | Modo | Cómo funciona |
 |---|---|
-| **URL** | Pega una dirección web y haz clic en "Extraer". Inkwell descarga y limpia el texto automáticamente. |
+| **URL** | Pega una dirección web y haz clic en "Extraer". Klipwise descarga y limpia el texto automáticamente. |
 | **Texto** | Pega directamente el contenido en el campo de texto. |
-| **PDF** | Haz clic en el área de subida y selecciona un archivo PDF. Inkwell extrae el texto. |
+| **PDF** | Haz clic en el área de subida y selecciona un archivo PDF. Klipwise extrae el texto. |
 
 Después de la extracción (o al escribir manualmente), revisa el **título** y el **contenido**, edítalos si es necesario, y haz clic en **"Guardar artículo"**.
 
 > ⚠️ Algunas páginas web bloquean el acceso automático (muros de pago, protección anti-bots). Si la extracción falla, copia y pega el texto manualmente en el modo **Texto**.
 
-Inkwell detecta automáticamente el idioma del artículo y muestra una etiqueta (`EN`, `ES`, etc.) en cada tarjeta.
+Klipwise detecta automáticamente el idioma del artículo y muestra una etiqueta (`EN`, `ES`, etc.) en cada tarjeta.
 
 ### Gestión de etiquetas
 
@@ -91,7 +91,7 @@ Haz clic en la **✕** en la esquina superior derecha de la tarjeta. Se pedirá 
 
 Ruta: **Conocimiento** en el menú lateral.
 
-La base de conocimiento es el lugar donde enseñas a Inkwell cómo escribes tú. Cuanto más rica sea, más fiel será la voz de los contenidos generados.
+La base de conocimiento es el lugar donde enseñas a Klipwise cómo escribes tú. Cuanto más rica sea, más fiel será la voz de los contenidos generados.
 
 ### Tipos de elementos
 
@@ -139,7 +139,7 @@ Genera un resumen editorial estructurado en español con los artículos que elij
 - Reflexión final sobre tendencias comunes.
 - Si algún artículo está en inglés, los puntos clave se traducen automáticamente al español.
 
-> ⚠️ El envío de email usa la dirección con la que te registraste en Inkwell. Si no recibes el email, revisa tu carpeta de spam.
+> ⚠️ El envío de email usa la dirección con la que te registraste en Klipwise. Si no recibes el email, revisa tu carpeta de spam.
 
 ---
 
@@ -174,7 +174,7 @@ Crea contenido listo para publicar en redes sociales o como artículo, usando tu
 
 Ruta: **⚙ Configuración** en la parte inferior del menú lateral.
 
-Para que Inkwell pueda generar resúmenes y contenido necesitas configurar tu propia API Key de un proveedor de IA. Esto garantiza que cada usuario usa sus propios créditos.
+Para que Klipwise pueda generar resúmenes y contenido necesitas configurar tu propia API Key de un proveedor de IA. Esto garantiza que cada usuario usa sus propios créditos.
 
 ### Proveedores disponibles
 
@@ -195,7 +195,7 @@ Tu clave se cifra antes de guardarse y nunca se muestra en claro en la aplicaci�
 
 ### Sin API Key configurada
 
-Si no tienes una API Key configurada, Inkwell funciona como almacén de artículos y conocimiento, pero las funciones de **Resumen email** y **Generar contenido** no estarán disponibles. Verás un aviso en el dashboard y en esas páginas con un enlace directo a Configuración.
+Si no tienes una API Key configurada, Klipwise funciona como almacén de artículos y conocimiento, pero las funciones de **Resumen email** y **Generar contenido** no estarán disponibles. Verás un aviso en el dashboard y en esas páginas con un enlace directo a Configuración.
 
 > 💡 Puedes actualizar o eliminar tu API Key desde la misma página de Configuración en cualquier momento.
 
@@ -203,7 +203,7 @@ Si no tienes una API Key configurada, Inkwell funciona como almacén de artícul
 
 ## 8. Dark / light mode
 
-Inkwell tiene modo oscuro y claro. Para cambiar entre ellos:
+Klipwise tiene modo oscuro y claro. Para cambiar entre ellos:
 
 - Busca el toggle **"☾ Oscuro" / "☀ Claro"** en la parte inferior del menú lateral.
 - Tu preferencia se guarda automáticamente y persiste entre sesiones.
@@ -213,7 +213,7 @@ Inkwell tiene modo oscuro y claro. Para cambiar entre ellos:
 ## 8. Preguntas frecuentes
 
 **¿Puedo añadir el mismo artículo dos veces?**
-Sí, Inkwell no comprueba duplicados. Si añades la misma URL dos veces, se guardarán dos entradas independientes.
+Sí, Klipwise no comprueba duplicados. Si añades la misma URL dos veces, se guardarán dos entradas independientes.
 
 **¿Cuántos artículos puedo guardar?**
 No hay límite definido en la app. El límite real depende del plan de tu base de datos.
@@ -225,7 +225,7 @@ No. La IA solo trabaja con el texto de los artículos que seleccionas y con tu b
 No. Todo el contenido es privado y solo accesible con tu cuenta.
 
 **¿Qué pasa si la extracción de una URL falla?**
-Inkwell mostrará un mensaje de error. En ese caso, abre el artículo manualmente en tu navegador, copia el texto y usa el modo **Texto** para añadirlo.
+Klipwise mostrará un mensaje de error. En ese caso, abre el artículo manualmente en tu navegador, copia el texto y usa el modo **Texto** para añadirlo.
 
-**¿Puedo usar Inkwell en el móvil?**
+**¿Puedo usar Klipwise en el móvil?**
 Sí. La interfaz es responsive y funcional en móvil, especialmente para añadir artículos rápido.

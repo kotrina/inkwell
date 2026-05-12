@@ -22,7 +22,7 @@ export default function ManualPage() {
           Manual de usuario
         </h1>
         <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
-          Guía completa de uso de Inkwell.
+          Guía completa de uso de Klipwise.
         </p>
 
         {loading ? (

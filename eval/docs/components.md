@@ -75,7 +75,7 @@ Navegación lateral de la app.
 | `onClose` | `() => void` (opcional) | Callback para cerrar en móvil |
 
 **Contenido:**
-- Logo "✒ Inkwell"
+- Logo "✒ Klipwise"
 - Links de navegación (activo resaltado con `var(--accent)`)
 - `ThemeToggle`
 - Email del usuario y botón de cerrar sesión
