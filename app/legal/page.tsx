@@ -8,50 +8,50 @@ const S = {
 
 export default function LegalPage() {
   return (
-    <LegalLayout title="Aviso Legal" lastUpdated="mayo de 2026">
+    <LegalLayout title="Legal Notice" lastUpdated="May 2026">
 
-      <h2 style={S.h2}>1. Identificación del titular</h2>
+      <h2 style={S.h2}>1. Identity of the owner</h2>
       <p style={S.p}>
-        En cumplimiento de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y del Comercio Electrónico (LSSI-CE), se facilitan los siguientes datos identificativos:
+        In compliance with Law 34/2002 of 11 July on Information Society Services and Electronic Commerce (LSSI-CE), the following identifying information is provided:
       </p>
       <ul style={S.ul}>
-        <li><strong>Titular:</strong> Raúl Cotrina</li>
+        <li><strong>Owner:</strong> Raúl Cotrina</li>
         <li><strong>NIF:</strong> 09012736W</li>
-        <li><strong>Domicilio:</strong> Avenida de la Coruña 37 1A, San Sebastián de los Reyes, Madrid</li>
+        <li><strong>Address:</strong> Avenida de la Coruña 37 1A, San Sebastián de los Reyes, Madrid, Spain</li>
         <li><strong>Email:</strong> raulcotrina@gmail.com</li>
-        <li><strong>Web:</strong> https://klipwise.app</li>
+        <li><strong>Website:</strong> https://klipwise.app</li>
       </ul>
 
-      <h2 style={S.h2}>2. Objeto y ámbito de aplicación</h2>
+      <h2 style={S.h2}>2. Purpose and scope</h2>
       <p style={S.p}>
-        El presente Aviso Legal regula el acceso y uso del sitio web klipwise.app (en adelante, &quot;el Sitio&quot;), así como de los servicios ofrecidos a través del mismo. El acceso y uso del Sitio implica la aceptación plena y sin reservas de las condiciones establecidas en este Aviso Legal.
+        This Legal Notice governs access to and use of the website klipwise.app (hereinafter &quot;the Site&quot;) and the services offered through it. Accessing or using the Site implies full and unconditional acceptance of the conditions set out in this Legal Notice.
       </p>
 
-      <h2 style={S.h2}>3. Condiciones de uso</h2>
-      <p style={S.p}>El usuario se compromete a:</p>
+      <h2 style={S.h2}>3. Terms of use</h2>
+      <p style={S.p}>The user agrees to:</p>
       <ul style={S.ul}>
-        <li>Hacer un uso lícito del Sitio y sus servicios, sin contravenir la legislación vigente.</li>
-        <li>No utilizar el Sitio para actividades fraudulentas, ilegales o que puedan causar daño a terceros.</li>
-        <li>No intentar acceder a áreas restringidas del Sitio sin autorización.</li>
-        <li>Proporcionar información veraz y actualizada en los formularios de registro.</li>
+        <li>Use the Site and its services lawfully, in compliance with applicable legislation.</li>
+        <li>Not use the Site for fraudulent, illegal, or harmful activities.</li>
+        <li>Not attempt to access restricted areas of the Site without authorisation.</li>
+        <li>Provide accurate and up-to-date information in registration forms.</li>
       </ul>
 
-      <h2 style={S.h2}>4. Propiedad intelectual e industrial</h2>
+      <h2 style={S.h2}>4. Intellectual and industrial property</h2>
       <p style={S.p}>
-        Todos los contenidos del Sitio (textos, imágenes, código fuente, logotipos y demás elementos) son propiedad del titular o disponen de la correspondiente licencia de uso. Queda prohibida su reproducción, distribución, comunicación pública o transformación sin autorización expresa del titular.
+        All content on the Site (text, images, source code, logos and other elements) is the property of the owner or used under licence. Reproduction, distribution, public communication or transformation without the express authorisation of the owner is prohibited.
       </p>
       <p style={S.p}>
-        El nombre comercial &quot;Klipwise&quot; y el dominio klipwise.app son utilizados por el titular con carácter exclusivo para la prestación de este servicio.
-      </p>
-
-      <h2 style={S.h2}>5. Limitación de responsabilidad</h2>
-      <p style={S.p}>
-        El titular no garantiza la disponibilidad continua del Sitio ni se hace responsable de los daños que pudieran derivarse de interrupciones, errores técnicos o accesos no autorizados ajenos a su control. El contenido generado por inteligencia artificial tiene carácter orientativo y no constituye asesoramiento profesional de ningún tipo.
+        The trade name &quot;Klipwise&quot; and the domain klipwise.app are used exclusively by the owner for the provision of this service.
       </p>
 
-      <h2 style={S.h2}>6. Legislación aplicable y jurisdicción</h2>
+      <h2 style={S.h2}>5. Limitation of liability</h2>
       <p style={S.p}>
-        El presente Aviso Legal se rige por la legislación española. Para la resolución de cualquier controversia derivada del acceso o uso del Sitio, las partes se someten a la jurisdicción de los Juzgados y Tribunales de Madrid, con renuncia expresa a cualquier otro fuero que pudiera corresponderles.
+        The owner does not guarantee the continuous availability of the Site and accepts no liability for damages arising from interruptions, technical errors or unauthorised access beyond their control. Content generated by artificial intelligence is for guidance only and does not constitute professional advice of any kind.
+      </p>
+
+      <h2 style={S.h2}>6. Applicable law and jurisdiction</h2>
+      <p style={S.p}>
+        This Legal Notice is governed by Spanish law. For the resolution of any dispute arising from access to or use of the Site, the parties submit to the jurisdiction of the Courts and Tribunals of Madrid, expressly waiving any other jurisdiction that may apply to them.
       </p>
 
     </LegalLayout>

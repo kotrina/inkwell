@@ -17,7 +17,7 @@ export function LegalLayout({ title, lastUpdated, children }: LegalLayoutProps) 
             ✒ Klipwise
           </Link>
           <Link href="/" style={{ fontSize: "13px", color: "var(--muted)", textDecoration: "none" }}>
-            ← Volver
+            ← Back
           </Link>
         </div>
       </nav>
@@ -28,7 +28,7 @@ export function LegalLayout({ title, lastUpdated, children }: LegalLayoutProps) 
           {title}
         </h1>
         <p style={{ fontSize: "13px", color: "var(--muted)", marginBottom: "48px" }}>
-          Última actualización: {lastUpdated}
+          Last updated: {lastUpdated}
         </p>
 
         <div style={{ lineHeight: "1.8", fontSize: "15px" }}>
@@ -40,9 +40,9 @@ export function LegalLayout({ title, lastUpdated, children }: LegalLayoutProps) 
       <div style={{ borderTop: "1px solid var(--border)", padding: "20px 24px", textAlign: "center" }}>
         <div style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap" }}>
           {[
-            { href: "/legal", label: "Aviso Legal" },
-            { href: "/privacy", label: "Política de Privacidad" },
-            { href: "/cookies", label: "Política de Cookies" },
+            { href: "/legal", label: "Legal Notice" },
+            { href: "/privacy", label: "Privacy Policy" },
+            { href: "/cookies", label: "Cookie Policy" },
           ].map((l) => (
             <Link key={l.href} href={l.href} style={{ fontSize: "12px", color: "var(--muted)", textDecoration: "none" }}>
               {l.label}

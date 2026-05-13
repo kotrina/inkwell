@@ -11,82 +11,82 @@ const S = {
 
 export default function CookiesPage() {
   return (
-    <LegalLayout title="Política de Cookies" lastUpdated="mayo de 2026">
+    <LegalLayout title="Cookie Policy" lastUpdated="May 2026">
 
       <div style={S.banner}>
-        ✓ <strong>Klipwise no utiliza cookies de seguimiento, publicidad ni analítica.</strong> Solo se usan cookies técnicas estrictamente necesarias para el funcionamiento del servicio, que no requieren su consentimiento.
+        ✓ <strong>Klipwise does not use tracking, advertising or analytics cookies.</strong> Only strictly necessary technical cookies are used to operate the service, which do not require your consent.
       </div>
 
-      <h2 style={S.h2}>¿Qué son las cookies?</h2>
+      <h2 style={S.h2}>What are cookies?</h2>
       <p style={S.p}>
-        Las cookies son pequeños archivos de texto que los sitios web almacenan en su dispositivo cuando los visita. Se utilizan para recordar sus preferencias, mantener su sesión activa y, en algunos casos, rastrear su comportamiento con fines analíticos o publicitarios.
+        Cookies are small text files that websites store on your device when you visit them. They are used to remember your preferences, keep your session active, and in some cases, track your behaviour for analytics or advertising purposes.
       </p>
 
-      <h2 style={S.h2}>Cookies que utilizamos</h2>
+      <h2 style={S.h2}>Cookies we use</h2>
       <p style={S.p}>
-        Klipwise únicamente utiliza cookies técnicas de sesión, imprescindibles para que pueda iniciar sesión y navegar por la aplicación de forma segura. Estas cookies no recopilan información personal con fines de seguimiento o publicidad.
+        Klipwise only uses technical session cookies, which are essential for you to log in and navigate the application securely. These cookies do not collect personal information for tracking or advertising purposes.
       </p>
 
       <table style={S.table}>
         <thead>
           <tr>
-            <th style={S.th}>Nombre</th>
-            <th style={S.th}>Tipo</th>
-            <th style={S.th}>Finalidad</th>
-            <th style={S.th}>Duración</th>
-            <th style={S.th}>Titular</th>
+            <th style={S.th}>Name</th>
+            <th style={S.th}>Type</th>
+            <th style={S.th}>Purpose</th>
+            <th style={S.th}>Duration</th>
+            <th style={S.th}>Owner</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td style={S.td}><code>next-auth.session-token</code></td>
-            <td style={S.td}>Técnica</td>
-            <td style={S.td}>Mantiene la sesión del usuario autenticado</td>
-            <td style={S.td}>30 días</td>
-            <td style={S.td}>Klipwise (propia)</td>
+            <td style={S.td}>Technical</td>
+            <td style={S.td}>Maintains the authenticated user session</td>
+            <td style={S.td}>30 days</td>
+            <td style={S.td}>Klipwise (first-party)</td>
           </tr>
           <tr>
             <td style={S.td}><code>next-auth.csrf-token</code></td>
-            <td style={S.td}>Técnica</td>
-            <td style={S.td}>Protección contra ataques CSRF</td>
-            <td style={S.td}>Sesión</td>
-            <td style={S.td}>Klipwise (propia)</td>
+            <td style={S.td}>Technical</td>
+            <td style={S.td}>Protection against CSRF attacks</td>
+            <td style={S.td}>Session</td>
+            <td style={S.td}>Klipwise (first-party)</td>
           </tr>
           <tr>
             <td style={S.td}><code>next-auth.callback-url</code></td>
-            <td style={S.td}>Técnica</td>
-            <td style={S.td}>Redirige al usuario a la página correcta tras el login</td>
-            <td style={S.td}>Sesión</td>
-            <td style={S.td}>Klipwise (propia)</td>
+            <td style={S.td}>Technical</td>
+            <td style={S.td}>Redirects the user to the correct page after login</td>
+            <td style={S.td}>Session</td>
+            <td style={S.td}>Klipwise (first-party)</td>
           </tr>
         </tbody>
       </table>
 
-      <h2 style={S.h2}>¿Necesita dar su consentimiento?</h2>
+      <h2 style={S.h2}>Do you need to give consent?</h2>
       <p style={S.p}>
-        No. Las cookies técnicas o estrictamente necesarias están exentas del requisito de consentimiento según el artículo 22.2 de la LSSI-CE y las directrices de la Agencia Española de Protección de Datos (AEPD). Por este motivo, Klipwise no muestra un banner de cookies.
+        No. Strictly necessary technical cookies are exempt from the consent requirement under Article 22.2 of the LSSI-CE and the guidelines of the Spanish Data Protection Agency (AEPD). For this reason, Klipwise does not display a cookie banner.
       </p>
 
-      <h2 style={S.h2}>¿Cómo gestionar o eliminar las cookies?</h2>
+      <h2 style={S.h2}>How to manage or delete cookies</h2>
       <p style={S.p}>
-        Puede configurar su navegador para bloquear o eliminar cookies en cualquier momento. Tenga en cuenta que bloquear las cookies técnicas puede impedir que pueda iniciar sesión o usar el servicio correctamente.
+        You can configure your browser to block or delete cookies at any time. Please note that blocking technical cookies may prevent you from logging in or using the service correctly.
       </p>
-      <p style={S.p}>Instrucciones para los principales navegadores:</p>
+      <p style={S.p}>Instructions for the main browsers:</p>
       <ul style={{ marginBottom: "16px", paddingLeft: "20px", color: "#475569" }}>
         <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Google Chrome</a></li>
-        <li><a href="https://support.mozilla.org/es/kb/habilitar-y-deshabilitar-cookies-sitios-web-rastrear-preferencias" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Mozilla Firefox</a></li>
-        <li><a href="https://support.apple.com/es-es/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Safari</a></li>
-        <li><a href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Microsoft Edge</a></li>
+        <li><a href="https://support.mozilla.org/en-US/kb/enable-and-disable-cookies-website-preferences" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Mozilla Firefox</a></li>
+        <li><a href="https://support.apple.com/en-gb/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Safari</a></li>
+        <li><a href="https://support.microsoft.com/en-us/windows/delete-and-manage-cookies-168dab11-0753-043d-7c16-ede5947fc64d" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>Microsoft Edge</a></li>
       </ul>
 
-      <h2 style={S.h2}>Cambios en esta política</h2>
+      <h2 style={S.h2}>Changes to this policy</h2>
       <p style={S.p}>
-        Si en el futuro Klipwise incorporara cookies de analítica u otro tipo, esta política se actualizará y se implementarán los mecanismos de consentimiento necesarios. Le informaremos de cualquier cambio relevante.
+        If Klipwise were to introduce analytics or other types of cookies in the future, this policy will be updated and the necessary consent mechanisms will be implemented. We will notify you of any relevant changes.
       </p>
 
-      <h2 style={S.h2}>Contacto</h2>
+      <h2 style={S.h2}>Contact</h2>
       <p style={S.p}>
-        Para cualquier consulta sobre el uso de cookies, puede contactar con nosotros en{" "}
+        For any questions about our use of cookies, please contact us at{" "}
         <a href="mailto:raulcotrina@gmail.com" style={{ color: "var(--accent)" }}>raulcotrina@gmail.com</a>.
       </p>
 
