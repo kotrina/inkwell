@@ -24,23 +24,23 @@ interface SummaryRecord {
 }
 
 const STATUS_STYLES: Record<string, { label: string; bg: string; color: string }> = {
-  new:      { label: "nuevo",     bg: "rgba(52,211,153,0.15)",  color: "#34d399" },
-  used:     { label: "usado",     bg: "rgba(148,163,184,0.15)", color: "#94a3b8" },
-  archived: { label: "archivado", bg: "rgba(148,163,184,0.10)", color: "#64748b" },
+  new:      { label: "new",      bg: "rgba(52,211,153,0.15)",  color: "#34d399" },
+  used:     { label: "used",     bg: "rgba(148,163,184,0.15)", color: "#94a3b8" },
+  archived: { label: "archived", bg: "rgba(148,163,184,0.10)", color: "#64748b" },
 };
 
 function relativeDate(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const d = Math.floor(diff / 86400000);
-  if (d === 0) return "hoy";
-  if (d === 1) return "ayer";
-  if (d < 7) return `hace ${d} días`;
-  if (d < 30) return `hace ${Math.floor(d / 7)} sem.`;
-  return new Date(iso).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+  if (d === 0) return "today";
+  if (d === 1) return "yesterday";
+  if (d < 7) return `${d}d ago`;
+  if (d < 30) return `${Math.floor(d / 7)}w ago`;
+  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 }
 
 function formatDateTime(iso: string) {
-  return new Date(iso).toLocaleString("es-ES", {
+  return new Date(iso).toLocaleString("en-GB", {
     day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
   });
 }
@@ -115,7 +115,7 @@ export default function SummaryPage() {
   }
 
   async function handleGenerate() {
-    if (selected.size === 0) { toast.error("Selecciona al menos un artículo"); return; }
+    if (selected.size === 0) { toast.error("Select at least one article"); return; }
     setLoading(true); setSummary(""); setSummaryId(null);
     try {
       const res = await fetch("/api/generate/summary", {
@@ -140,9 +140,9 @@ export default function SummaryPage() {
       setArticles((prev) =>
         prev.map((a) => selected.has(a.id) ? { ...a, status: "used" } : a)
       );
-      toast.success("Resumen generado y guardado");
+      toast.success("Digest generated and saved");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al generar");
+      toast.error(err instanceof Error ? err.message : "Error generating digest");
     } finally {
       setLoading(false);
     }
@@ -169,9 +169,9 @@ export default function SummaryPage() {
     setSending(true);
     try {
       await sendEmail(summary, summaryId);
-      toast.success("Email enviado correctamente");
+      toast.success("Email sent successfully");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al enviar el email");
+      toast.error(err instanceof Error ? err.message : "Error sending email");
     } finally {
       setSending(false);
     }
@@ -181,9 +181,9 @@ export default function SummaryPage() {
     setResendingId(s.id);
     try {
       await sendEmail(s.content, s.id);
-      toast.success("Email reenviado");
+      toast.success("Email resent");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al reenviar");
+      toast.error(err instanceof Error ? err.message : "Error resending email");
     } finally {
       setResendingId(null);
     }
@@ -193,7 +193,7 @@ export default function SummaryPage() {
     await navigator.clipboard.writeText(summary);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast.success("Copiado al portapapeles");
+    toast.success("Copied to clipboard");
   }
 
   const allSelected = sortedFiltered.length > 0 && selected.size === sortedFiltered.length;
@@ -203,9 +203,9 @@ export default function SummaryPage() {
     <AppShell>
       <div className="max-w-4xl">
         {hasApiKey === false && <NoApiKeyBanner />}
-        <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Resumen por email</h1>
+        <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Email digest</h1>
         <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
-          Selecciona artículos y genera un resumen editorial estructurado en español.
+          Select articles and generate a structured editorial digest to send by email.
         </p>
 
         {/* Bloque 1 — Tabla de selección */}
@@ -213,10 +213,10 @@ export default function SummaryPage() {
           <div className="flex items-center gap-3 mb-3 flex-wrap">
             <div className="flex gap-1 p-1 rounded-lg shrink-0" style={{ background: "var(--tab-warm-bg)" }}>
               {([
-                { value: "new",      label: "Nuevos" },
-                { value: "used",     label: "Usados" },
-                { value: "archived", label: "Archivados" },
-                { value: "all",      label: "Todos" },
+                { value: "new",      label: "New" },
+                { value: "used",     label: "Used" },
+                { value: "archived", label: "Archived" },
+                { value: "all",      label: "All" },
               ] as { value: "new" | "used" | "archived" | "all"; label: string }[]).map((tab) => (
                 <button
                   key={tab.value}
@@ -239,7 +239,7 @@ export default function SummaryPage() {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Buscar por título..."
+                placeholder="Search by title..."
                 className="w-full pl-7 pr-3 py-1.5 rounded-md text-xs outline-none border transition-colors"
                 style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
               />
@@ -261,7 +261,7 @@ export default function SummaryPage() {
                 ))}
                 {activeTags.size > 0 && (
                   <button onClick={() => setActiveTags(new Set())} className="px-2 py-0.5 text-xs" style={{ color: "var(--muted)" }}>
-                    × limpiar
+                    × clear
                   </button>
                 )}
               </div>
@@ -270,7 +270,7 @@ export default function SummaryPage() {
 
           {articles.length === 0 ? (
             <p className="text-sm text-center py-12" style={{ color: "var(--muted)" }}>
-              No hay artículos. Ve a Artículos para añadir.
+              No articles yet. Go to Articles to add some.
             </p>
           ) : (
             <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--border)" }}>
@@ -291,16 +291,16 @@ export default function SummaryPage() {
                     className="cursor-pointer"
                   />
                 </span>
-                <span>TÍTULO</span>
+                <span>TITLE</span>
                 <span>TAGS</span>
-                <span>IDIOMA</span>
-                <span>ESTADO</span>
-                <span>FECHA</span>
+                <span>LANG</span>
+                <span>STATUS</span>
+                <span>DATE</span>
               </div>
 
               {sortedFiltered.length === 0 ? (
                 <div className="px-4 py-8 text-center text-sm" style={{ color: "var(--muted)", background: "var(--card)" }}>
-                  Sin resultados para esa búsqueda.
+                  No results for that search.
                 </div>
               ) : (
                 sortedFiltered.map((article, i) => {
@@ -354,13 +354,13 @@ export default function SummaryPage() {
               >
                 <span className="text-xs" style={{ color: "var(--table-header-text)" }}>
                   {selected.size > 0
-                    ? `${selected.size} seleccionado${selected.size > 1 ? "s" : ""} de ${sortedFiltered.length}`
-                    : `${sortedFiltered.length} artículo${sortedFiltered.length !== 1 ? "s" : ""}`}
+                    ? `${selected.size} selected of ${sortedFiltered.length}`
+                    : `${sortedFiltered.length} article${sortedFiltered.length !== 1 ? "s" : ""}`}
                 </span>
                 <div className="flex items-center gap-3">
                   {selected.size > 0 && (
                     <button onClick={() => setSelected(new Set())} className="text-xs" style={{ color: "var(--table-header-text)" }}>
-                      Limpiar selección
+                      Clear selection
                     </button>
                   )}
                   <button
@@ -369,7 +369,7 @@ export default function SummaryPage() {
                     className="px-4 py-1.5 rounded-md text-xs font-medium disabled:opacity-40 transition-opacity"
                     style={{ background: "var(--accent)", color: "#ffffff" }}
                   >
-                    {loading ? "Generando..." : `Generar resumen${selected.size > 0 ? ` (${selected.size})` : ""}`}
+                    {loading ? "Generating..." : `Generate digest${selected.size > 0 ? ` (${selected.size})` : ""}`}
                   </button>
                 </div>
               </div>
@@ -381,7 +381,7 @@ export default function SummaryPage() {
         {(loading || summary) && (
           <div className="mb-8">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xs font-medium tracking-wide" style={{ color: "var(--muted)" }}>RESULTADO</h2>
+              <h2 className="text-xs font-medium tracking-wide" style={{ color: "var(--muted)" }}>RESULT</h2>
               {summary && (
                 <div className="flex gap-2">
                   <button
@@ -389,7 +389,7 @@ export default function SummaryPage() {
                     className="text-xs px-3 py-1.5 rounded font-medium"
                     style={{ background: "var(--btn-secondary)", color: "var(--btn-secondary-text)" }}
                   >
-                    {copied ? "¡Copiado!" : "Copiar"}
+                    {copied ? "Copied!" : "Copy"}
                   </button>
                   <button
                     onClick={handleSendEmail}
@@ -397,7 +397,7 @@ export default function SummaryPage() {
                     className="text-xs px-3 py-1.5 rounded font-medium disabled:opacity-50"
                     style={{ background: "var(--accent)", color: "#ffffff" }}
                   >
-                    {sending ? "Enviando..." : "✉ Email"}
+                    {sending ? "Sending..." : "✉ Send email"}
                   </button>
                 </div>
               )}
@@ -417,7 +417,7 @@ export default function SummaryPage() {
               {loading && (
                 <div className="flex items-center gap-2" style={{ color: "var(--muted)" }}>
                   <span className="animate-pulse text-lg">✒</span>
-                  <span>Generando resumen...</span>
+                  <span>Generating digest...</span>
                 </div>
               )}
               {summary && <span>{summary}</span>}
@@ -435,7 +435,7 @@ export default function SummaryPage() {
                   height: "120px",
                   fontFamily: "Georgia, serif",
                 }}
-                placeholder="Puedes editar el resumen aquí antes de enviarlo..."
+                placeholder="You can edit the digest here before sending..."
               />
             )}
           </div>
@@ -444,7 +444,7 @@ export default function SummaryPage() {
         {/* Bloque 3 — Histórico */}
         {summaries.length > 0 && (
           <div>
-            <h2 className="text-xs font-medium tracking-wide mb-3" style={{ color: "var(--muted)" }}>HISTÓRICO DE RESÚMENES</h2>
+            <h2 className="text-xs font-medium tracking-wide mb-3" style={{ color: "var(--muted)" }}>DIGEST HISTORY</h2>
             <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--border)" }}>
               {/* Header */}
               <div
@@ -455,9 +455,9 @@ export default function SummaryPage() {
                   gridTemplateColumns: "160px 1fr 100px 90px",
                 }}
               >
-                <span>FECHA</span>
-                <span>RESUMEN</span>
-                <span>ESTADO</span>
+                <span>DATE</span>
+                <span>DIGEST</span>
+                <span>STATUS</span>
                 <span></span>
               </div>
 
@@ -480,11 +480,11 @@ export default function SummaryPage() {
                   <span>
                     {s.sentAt ? (
                       <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(52,211,153,0.15)", color: "#34d399" }}>
-                        ✉ Enviado
+                        ✉ Sent
                       </span>
                     ) : (
                       <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "var(--subtle)", color: "var(--muted)" }}>
-                        Generado
+                        Generated
                       </span>
                     )}
                   </span>
@@ -495,7 +495,7 @@ export default function SummaryPage() {
                       className="text-xs px-2.5 py-1 rounded font-medium disabled:opacity-50 transition-opacity"
                       style={{ background: "var(--btn-secondary)", color: "var(--btn-secondary-text)" }}
                     >
-                      {resendingId === s.id ? "..." : s.sentAt ? "Reenviar" : "Enviar"}
+                      {resendingId === s.id ? "..." : s.sentAt ? "Resend" : "Send"}
                     </button>
                   </div>
                 </div>
@@ -505,7 +505,7 @@ export default function SummaryPage() {
                 className="px-4 py-2 text-xs"
                 style={{ background: "var(--table-header)", borderTop: "1px solid var(--border)", color: "var(--table-header-text)" }}
               >
-                {summaries.length} resumen{summaries.length !== 1 ? "es" : ""}
+                {summaries.length} digest{summaries.length !== 1 ? "s" : ""}
               </div>
             </div>
           </div>

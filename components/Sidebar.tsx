@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
 const navItems = [
-  { href: "/dashboard", label: "Inicio", icon: "⊞" },
-  { href: "/articles", label: "Artículos", icon: "◈" },
-  { href: "/knowledge", label: "Conocimiento", icon: "◎" },
-  { href: "/generate/summary", label: "Resumen email", icon: "✉" },
-  { href: "/generate/content", label: "Generar contenido", icon: "✒" },
+  { href: "/dashboard", label: "Home", icon: "⊞" },
+  { href: "/articles", label: "Articles", icon: "◈" },
+  { href: "/knowledge", label: "Knowledge", icon: "◎" },
+  { href: "/generate/summary", label: "Email digest", icon: "✉" },
+  { href: "/generate/content", label: "Generate content", icon: "✒" },
 ];
 
 export function Sidebar({ onClose }: { onClose?: () => void }) {
@@ -55,8 +55,8 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
 
       <div className="px-3 py-4 border-t space-y-1" style={{ borderColor: "var(--border)" }}>
         {[
-          { href: "/settings", label: "Configuración", icon: "⚙" },
-          { href: "/manual", label: "Manual de usuario", icon: "?" },
+          { href: "/settings", label: "Settings", icon: "⚙" },
+          { href: "/manual", label: "User manual", icon: "?" },
         ].map((item) => (
           <Link
             key={item.href}
@@ -81,7 +81,7 @@ export function Sidebar({ onClose }: { onClose?: () => void }) {
             className="text-xs transition-colors hover:underline"
             style={{ color: "var(--muted)" }}
           >
-            Cerrar sesión →
+            Sign out →
           </button>
         </div>
       </div>

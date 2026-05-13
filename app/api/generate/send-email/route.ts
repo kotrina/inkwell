@@ -34,19 +34,19 @@ export async function POST(req: Request) {
     await resend.emails.send({
       from: `Klipwise <${process.env.RESEND_FROM_EMAIL || "noreply@klipwise.app"}>`,
       to: userEmail,
-      subject: `Klipwise — Resumen de artículos`,
+      subject: `Klipwise — Your article digest`,
       html: `
         <div style="background:#f0ebe3;padding:32px 0;font-family:Georgia,serif">
           <div style="max-width:620px;margin:0 auto;background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0">
             <div style="background:#f8f7f4;padding:24px 32px;border-bottom:1px solid #e2e8f0">
               <p style="margin:0;font-size:20px;font-weight:bold;color:#6366f1;font-family:Georgia,serif">✒ Klipwise</p>
-              <p style="margin:4px 0 0;color:#94a3b8;font-size:13px">Tu resumen editorial</p>
+              <p style="margin:4px 0 0;color:#94a3b8;font-size:13px">Your editorial digest</p>
             </div>
             <div style="padding:32px;color:#334155;font-size:15px;line-height:1.7">
               ${htmlContent}
             </div>
             <div style="background:#f8f7f4;padding:16px 32px;border-top:1px solid #e2e8f0;font-size:12px;color:#94a3b8">
-              Generado con Klipwise ·
+              Generated with Klipwise ·
               <a href="${process.env.NEXTAUTH_URL}" style="color:#6366f1;text-decoration:none">Abrir app</a>
             </div>
           </div>
