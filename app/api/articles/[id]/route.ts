@@ -37,6 +37,8 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     data: {
       tags: body.tags ?? article.tags,
       ...(body.status !== undefined ? { status: body.status } : {}),
+      // Al resetear a "new", limpiar la referencia al último resumen
+      ...(body.status === "new" ? { lastSummaryAt: null } : {}),
     },
   });
 

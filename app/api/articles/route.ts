@@ -25,7 +25,7 @@ export async function GET(req: Request) {
   const articles = await prisma.article.findMany({
     where: { userId, ...statusFilter },
     orderBy: { createdAt: "desc" },
-    select: { id: true, title: true, url: true, language: true, tags: true, status: true, createdAt: true },
+    select: { id: true, title: true, url: true, language: true, tags: true, status: true, createdAt: true, lastSummaryAt: true },
   });
 
   return NextResponse.json(articles);
