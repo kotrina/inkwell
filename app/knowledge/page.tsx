@@ -13,10 +13,10 @@ interface KnowledgeItem {
 }
 
 const TYPES = [
-  { value: "tone", label: "Tono", desc: "Ejemplos de tu tono de voz" },
-  { value: "style", label: "Estilo", desc: "Cómo estructuras tus textos" },
-  { value: "topic", label: "Tema", desc: "Áreas de interés o expertise" },
-  { value: "example", label: "Ejemplo", desc: "Textos de referencia que has escrito" },
+  { value: "tone", label: "Tone", desc: "Examples of your voice and tone" },
+  { value: "style", label: "Style", desc: "How you structure your writing" },
+  { value: "topic", label: "Topic", desc: "Areas of interest or expertise" },
+  { value: "example", label: "Example", desc: "Reference texts you have written" },
 ];
 
 type InputMode = "url" | "text" | "pdf";
@@ -58,9 +58,9 @@ export default function KnowledgePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setTitle(data.title); setContent(data.content);
-      toast.success("Contenido extraído");
+      toast.success("Content extracted");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al procesar la URL");
+      toast.error(err instanceof Error ? err.message : "Error processing the URL");
     } finally {
       setScraping(false);
     }
@@ -77,16 +77,16 @@ export default function KnowledgePage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setTitle(data.title); setContent(data.content);
-      toast.success("PDF procesado");
+      toast.success("PDF processed");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al procesar el PDF");
+      toast.error(err instanceof Error ? err.message : "Error processing the PDF");
     } finally {
       setScraping(false);
     }
   }
 
   async function handleSave() {
-    if (!title || !content) { toast.error("Título y contenido son requeridos"); return; }
+    if (!title || !content) { toast.error("Title and content are required"); return; }
     setLoading(true);
     try {
       const res = await fetch("/api/knowledge", {
@@ -98,30 +98,30 @@ export default function KnowledgePage() {
       if (!res.ok) throw new Error(data.error);
       setItems((prev) => [data, ...prev]);
       setTitle(""); setContent(""); setUrl("");
-      toast.success("Guardado en base de conocimiento");
+      toast.success("Saved to knowledge base");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al guardar");
+      toast.error(err instanceof Error ? err.message : "Error saving");
     } finally {
       setLoading(false);
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("¿Eliminar este elemento?")) return;
+    if (!confirm("Delete this item?")) return;
     const res = await fetch(`/api/knowledge/${id}`, { method: "DELETE" });
-    if (res.ok) { setItems((prev) => prev.filter((i) => i.id !== id)); toast.success("Eliminado"); }
+    if (res.ok) { setItems((prev) => prev.filter((i) => i.id !== id)); toast.success("Deleted"); }
   }
 
   return (
     <AppShell>
       <div className="max-w-3xl">
-        <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Base de conocimiento</h1>
+        <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Knowledge base</h1>
         <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
-          Añade ejemplos de tu escritura, tono y estilo. La IA los usará para generar contenido con tu voz.
+          Add examples of your writing, tone and style. AI will use them to generate content in your voice.
         </p>
 
         <div className="rounded-xl p-6 border mb-8" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
-          <h2 className="text-xs font-medium mb-4" style={{ color: "var(--muted)" }}>AÑADIR ELEMENTO</h2>
+          <h2 className="text-xs font-medium mb-4" style={{ color: "var(--muted)" }}>ADD ITEM</h2>
 
           {/* Type selector */}
           <div className="grid grid-cols-4 gap-2 mb-4">
@@ -155,7 +155,7 @@ export default function KnowledgePage() {
                   boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.15)" : "none",
                 }}
               >
-                {m === "url" ? "URL" : m === "text" ? "Texto" : "PDF"}
+                {m === "url" ? "URL" : m === "text" ? "Text" : "PDF"}
               </button>
             ))}
           </div>
@@ -181,7 +181,7 @@ export default function KnowledgePage() {
                   border: "1px solid rgba(129,140,248,0.4)",
                 }}
               >
-                {scraping ? "Extrayendo..." : "Extraer"}
+                {scraping ? "Extracting..." : "Extract"}
               </button>
             </div>
           )}
@@ -195,7 +195,7 @@ export default function KnowledgePage() {
                 className="w-full py-8 rounded-lg border-2 border-dashed text-sm disabled:opacity-50 transition-colors"
                 style={{ borderColor: "var(--border)", color: "var(--muted)" }}
               >
-                {scraping ? "Procesando PDF..." : "Haz clic para subir un PDF"}
+                {scraping ? "Processing PDF..." : "Click to upload a PDF"}
               </button>
             </div>
           )}
@@ -205,14 +205,14 @@ export default function KnowledgePage() {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Título descriptivo"
+              placeholder="Descriptive title"
               className="w-full px-3 py-2 rounded-md text-sm outline-none border transition-colors"
               style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
             />
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder={mode === "text" ? "Pega aquí el texto de referencia..." : "El contenido aparecerá aquí"}
+              placeholder={mode === "text" ? "Paste reference text here..." : "Content will appear here"}
               rows={6}
               className="w-full px-3 py-2 rounded-md text-sm outline-none border resize-none transition-colors"
               style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
@@ -224,7 +224,7 @@ export default function KnowledgePage() {
                 className="px-5 py-2 rounded-md text-sm font-medium disabled:opacity-50"
                 style={{ background: "var(--accent)", color: "#ffffff" }}
               >
-                {loading ? "Guardando..." : "Guardar"}
+                {loading ? "Saving..." : "Save"}
               </button>
             </div>
           </div>
@@ -234,7 +234,7 @@ export default function KnowledgePage() {
         <div className="space-y-2">
           {items.length === 0 && (
             <p className="text-sm text-center py-8" style={{ color: "var(--muted)" }}>
-              Aún no hay elementos. Añade ejemplos de tu escritura para que la IA aprenda tu voz.
+              No items yet. Add writing examples so AI can learn your voice.
             </p>
           )}
           {items.map((item) => (
@@ -251,7 +251,7 @@ export default function KnowledgePage() {
               </span>
               <span className="text-sm flex-1 truncate" style={{ color: "var(--foreground)" }}>{item.title}</span>
               <span className="text-xs shrink-0" style={{ color: "var(--muted)" }}>
-                {new Date(item.createdAt).toLocaleDateString("es-ES")}
+                {new Date(item.createdAt).toLocaleDateString("en-GB")}
               </span>
               <button
                 onClick={() => handleDelete(item.id)}
