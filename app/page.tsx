@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -51,6 +52,51 @@ export default function Home() {
           </div>
           <p style={{ marginTop: "20px", fontSize: "13px", color: "var(--muted)" }}>No credit card required · Free to start</p>
         </div>
+
+        {/* Hero screenshot */}
+        <div style={{ maxWidth: "1000px", margin: "64px auto 0", padding: "0 24px" }}>
+          <div style={{
+            borderRadius: "12px",
+            overflow: "hidden",
+            border: "1px solid #d8d0c8",
+            boxShadow: "0 24px 64px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.08)",
+          }}>
+            {/* Browser chrome bar */}
+            <div style={{
+              background: "#ede8e1",
+              padding: "10px 16px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              borderBottom: "1px solid #d8d0c8",
+            }}>
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#f87171" }} />
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#fbbf24" }} />
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#34d399" }} />
+              <div style={{
+                flex: 1,
+                margin: "0 12px",
+                background: "#f0ebe3",
+                border: "1px solid #d8d0c8",
+                borderRadius: "4px",
+                padding: "3px 10px",
+                fontSize: "11px",
+                color: "#94a3b8",
+                textAlign: "left",
+              }}>
+                klipwise.app/articles
+              </div>
+            </div>
+            <Image
+              src="/screenshots/articles.png"
+              alt="Klipwise Articles — save and organise your reading"
+              width={1000}
+              height={600}
+              style={{ display: "block", width: "100%", height: "auto" }}
+              priority
+            />
+          </div>
+        </div>
       </section>
 
       {/* Features */}
@@ -84,6 +130,43 @@ export default function Home() {
               <p style={{ color: "#64748b", fontSize: "15px", lineHeight: "1.65" }}>{f.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Generate screenshot */}
+      <section style={{ padding: "0 24px 80px", maxWidth: "1100px", margin: "0 auto" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "48px", alignItems: "center" }}>
+          <div>
+            <div style={{ fontSize: "13px", fontWeight: "600", color: "var(--accent)", marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.05em" }}>
+              Email digest
+            </div>
+            <h2 style={{ fontSize: "28px", fontWeight: "bold", marginBottom: "16px", lineHeight: "1.3" }}>
+              From articles to newsletter in one click
+            </h2>
+            <p style={{ color: "#64748b", fontSize: "16px", lineHeight: "1.7", marginBottom: "24px" }}>
+              Select the articles you want to cover, hit Generate, and AI produces a structured editorial digest ready to send. Your history is saved so you can resend or track what's gone out.
+            </p>
+            <Link
+              href="/login?mode=register"
+              style={{ display: "inline-block", background: "var(--accent)", color: "#fff", padding: "12px 24px", borderRadius: "8px", textDecoration: "none", fontSize: "15px", fontWeight: "600" }}
+            >
+              Try it free →
+            </Link>
+          </div>
+          <div style={{
+            borderRadius: "12px",
+            overflow: "hidden",
+            border: "1px solid var(--border)",
+            boxShadow: "0 16px 48px rgba(0,0,0,0.10)",
+          }}>
+            <Image
+              src="/screenshots/digest.png"
+              alt="Klipwise Email digest — generate and send editorial digests"
+              width={600}
+              height={400}
+              style={{ display: "block", width: "100%", height: "auto" }}
+            />
+          </div>
         </div>
       </section>
 
