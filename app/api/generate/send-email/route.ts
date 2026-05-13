@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       .join("\n");
 
     await resend.emails.send({
-      from: process.env.RESEND_FROM_EMAIL || "noreply@klipwise.app",
+      from: `Klipwise <${process.env.RESEND_FROM_EMAIL || "noreply@klipwise.app"}>`,
       to: userEmail,
       subject: `Klipwise — Resumen de artículos`,
       html: `
