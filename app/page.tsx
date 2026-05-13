@@ -29,8 +29,8 @@ export default function Home() {
             Your personal editorial library
           </div>
           <h1 style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: "bold", lineHeight: "1.15", marginBottom: "24px", color: "var(--foreground)" }}>
-            Save articles,<br />
-            <span style={{ color: "var(--accent)" }}>generate content</span> with AI
+            Turn your reading<br />
+            into <span style={{ color: "var(--accent)" }}>content with AI</span>
           </h1>
           <p style={{ fontSize: "18px", color: "#64748b", lineHeight: "1.7", marginBottom: "40px", maxWidth: "560px", margin: "0 auto 40px" }}>
             Capture articles from any source, organise your knowledge, and use AI to generate summaries and posts in seconds.
