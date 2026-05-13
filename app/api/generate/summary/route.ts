@@ -76,13 +76,18 @@ ${articlesText}`;
       maxTokens: 4096,
     });
 
-    // Marcar artículos usados como "used"
-    await prisma.article.updateMany({
-      where: { id: { in: articleIds }, userId },
-      data: { status: "used" },
+    // Guardar el resumen generado
+    const emailSummary = await prisma.emailSummary.create({
+      data: { userId, content: summary },
     });
 
-    return NextResponse.json({ summary });
+    // Marcar artículos como "used" y actualizar lastSummaryAt
+    await prisma.article.updateMany({
+      where: { id: { in: articleIds }, userId },
+      data: { status: "used", lastSummaryAt: emailSummary.createdAt },
+    });
+
+    return NextResponse.json({ summary, summaryId: emailSummary.id });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Error al generar el resumen";
     return NextResponse.json({ error: message }, { status: 500 });
