@@ -3,8 +3,11 @@ import "./globals.css";
 import { Providers } from "@/components/Providers";
 
 export const metadata: Metadata = {
-  title: "Klipwise — Article Manager",
-  description: "Recopila artículos y genera contenido con tu voz",
+  title: "Klipwise — Turn your reading into content with AI",
+  description: "Save articles from any source, organise your library, and use AI to generate newsletters and social posts in seconds.",
+  icons: {
+    icon: "/icon",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
