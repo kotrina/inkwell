@@ -23,13 +23,13 @@ interface Props {
 }
 
 const STATUS_ACTIONS: Record<string, { label: string; next: string }[]> = {
-  new:      [{ label: "Archivar", next: "archived" }],
-  used:     [{ label: "Marcar como nuevo", next: "new" }, { label: "Archivar", next: "archived" }],
-  archived: [{ label: "Restaurar", next: "new" }],
+  new:      [{ label: "Archive", next: "archived" }],
+  used:     [{ label: "Mark as new", next: "new" }, { label: "Archive", next: "archived" }],
+  archived: [{ label: "Restore", next: "new" }],
 };
 
 export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChange, onStatusChange, dimmed }: Props) {
-  const date = new Date(article.createdAt).toLocaleDateString("es-ES", {
+  const date = new Date(article.createdAt).toLocaleDateString("en-GB", {
     day: "numeric", month: "short", year: "numeric",
   });
 
@@ -68,7 +68,7 @@ export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChang
                 className="text-xs px-1.5 py-0.5 rounded"
                 style={{ background: "rgba(34,197,94,0.12)", color: "#16a34a" }}
               >
-                usado
+                used
               </span>
             )}
             {article.status === "archived" && (
@@ -76,7 +76,7 @@ export function ArticleCard({ article, selected, onSelect, onDelete, onTagsChang
                 className="text-xs px-1.5 py-0.5 rounded"
                 style={{ background: "var(--subtle)", color: "var(--muted)" }}
               >
-                archivado
+                archived
               </span>
             )}
           </div>
@@ -142,7 +142,7 @@ function TagEditor({ tags, onChange }: { tags: string[]; onChange: (tags: string
   return (
     <input
       type="text"
-      placeholder="+ etiqueta"
+      placeholder="+ tag"
       className="text-xs bg-transparent outline-none"
       style={{ color: "var(--muted)", width: "80px" }}
       onKeyDown={(e) => {

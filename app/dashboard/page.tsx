@@ -30,32 +30,32 @@ export default function DashboardPage() {
     });
   }, []);
 
-  const name = session?.user?.name || session?.user?.email?.split("@")[0] || "lector";
+  const name = session?.user?.name || session?.user?.email?.split("@")[0] || "reader";
 
   return (
     <AppShell>
       <div className="max-w-2xl">
         {hasApiKey === false && <NoApiKeyBanner />}
         <h1 className="text-3xl font-bold mb-2" style={{ color: "var(--foreground)" }}>
-          Bienvenido, {name}.
+          Welcome, {name}.
         </h1>
         <p className="mb-10 text-sm" style={{ color: "var(--muted)" }}>
-          Tu espacio de escritura editorial.
+          Your editorial writing space.
         </p>
 
         <div className="grid grid-cols-2 gap-4 mb-10">
-          <StatCard label="Artículos guardados" value={stats.articles} href="/articles" />
-          <StatCard label="Elementos de conocimiento" value={stats.knowledge} href="/knowledge" />
+          <StatCard label="Saved articles" value={stats.articles} href="/articles" />
+          <StatCard label="Knowledge items" value={stats.knowledge} href="/knowledge" />
         </div>
 
         <div className="space-y-3">
           <h2 className="text-sm font-medium mb-4" style={{ color: "var(--muted)" }}>
-            ACCIONES RÁPIDAS
+            QUICK ACTIONS
           </h2>
-          <QuickAction href="/articles" icon="+" label="Añadir artículo" desc="URL, texto o PDF" />
-          <QuickAction href="/generate/summary" icon="✉" label="Generar resumen" desc="Selecciona artículos y envía por email" />
-          <QuickAction href="/generate/content" icon="✒" label="Crear contenido" desc="Twitter, LinkedIn o artículo largo" />
-          <QuickAction href="/knowledge" icon="◎" label="Base de conocimiento" desc="Añade tu estilo y tono de escritura" />
+          <QuickAction href="/articles" icon="+" label="Add article" desc="URL, text or PDF" />
+          <QuickAction href="/generate/summary" icon="✉" label="Generate digest" desc="Select articles and send by email" />
+          <QuickAction href="/generate/content" icon="✒" label="Create content" desc="Twitter thread, LinkedIn post or long article" />
+          <QuickAction href="/knowledge" icon="◎" label="Knowledge base" desc="Add your writing style and tone" />
         </div>
       </div>
     </AppShell>

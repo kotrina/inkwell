@@ -17,9 +17,9 @@ interface Article {
 }
 
 const FORMATS = [
-  { value: "twitter", label: "Hilo de Twitter", icon: "𝕏" },
-  { value: "linkedin", label: "Post de LinkedIn", icon: "in" },
-  { value: "article", label: "Artículo largo", icon: "✒" },
+  { value: "twitter", label: "Twitter thread", icon: "𝕏" },
+  { value: "linkedin", label: "LinkedIn post", icon: "in" },
+  { value: "article", label: "Long article", icon: "✒" },
 ];
 
 export default function ContentPage() {
@@ -73,7 +73,7 @@ export default function ContentPage() {
   }
 
   async function handleGenerate() {
-    if (selected.size === 0) { toast.error("Selecciona al menos un artículo"); return; }
+    if (selected.size === 0) { toast.error("Select at least one article"); return; }
     setLoading(true); setResult("");
     try {
       const res = await fetch("/api/generate/content", {
@@ -84,9 +84,9 @@ export default function ContentPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setResult(data.content);
-      toast.success("Contenido generado");
+      toast.success("Content generated");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al generar");
+      toast.error(err instanceof Error ? err.message : "Error generating content");
     } finally {
       setLoading(false);
     }
@@ -96,7 +96,7 @@ export default function ContentPage() {
     await navigator.clipboard.writeText(result);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast.success("Copiado al portapapeles");
+    toast.success("Copied to clipboard");
   }
 
   function renderContent() {
@@ -128,16 +128,16 @@ export default function ContentPage() {
     <AppShell>
       <div className="max-w-4xl">
         {hasApiKey === false && <NoApiKeyBanner />}
-        <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Generar contenido</h1>
+        <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>Generate content</h1>
         <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
-          Crea contenido con tu voz usando tu base de conocimiento como guía de estilo.
+          Create content in your voice using your knowledge base as a style guide.
         </p>
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
           {/* Left panel */}
           <div className="lg:col-span-2 space-y-5">
             <div>
-              <h2 className="text-xs font-medium mb-3" style={{ color: "var(--muted)" }}>FORMATO</h2>
+              <h2 className="text-xs font-medium mb-3" style={{ color: "var(--muted)" }}>FORMAT</h2>
               <div className="space-y-2">
                 {FORMATS.map((f) => (
                   <button
@@ -159,7 +159,7 @@ export default function ContentPage() {
 
             <div>
               <h2 className="text-xs font-medium mb-2" style={{ color: "var(--muted)" }}>
-                ARTÍCULOS ({selected.size} seleccionados)
+                ARTICLES ({selected.size} selected)
               </h2>
 
               {/* Search */}
@@ -169,7 +169,7 @@ export default function ContentPage() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Buscar..."
+                  placeholder="Search..."
                   className="w-full pl-7 pr-3 py-1.5 rounded-md text-xs outline-none border transition-colors"
                   style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
                 />
@@ -196,31 +196,31 @@ export default function ContentPage() {
 
               <div className="space-y-2 max-h-52 overflow-y-auto">
                 {articles.length === 0 && (
-                  <p className="text-xs py-4 text-center" style={{ color: "var(--muted)" }}>No hay artículos</p>
+                  <p className="text-xs py-4 text-center" style={{ color: "var(--muted)" }}>No articles yet</p>
                 )}
                 {filteredArticles.filter((a) => a.status === "new").map((a) => (
                   <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} />
                 ))}
                 {filteredArticles.some((a) => a.status === "used") && (
                   <>
-                    <p className="text-xs pt-1 pb-0.5" style={{ color: "var(--muted)" }}>— Ya usados —</p>
+                    <p className="text-xs pt-1 pb-0.5" style={{ color: "var(--muted)" }}>— Already used —</p>
                     {filteredArticles.filter((a) => a.status === "used").map((a) => (
                       <ArticleCard key={a.id} article={a} selected={selected.has(a.id)} onSelect={toggleSelect} dimmed />
                     ))}
                   </>
                 )}
                 {articles.length > 0 && filteredArticles.length === 0 && (
-                  <p className="text-xs text-center py-3" style={{ color: "var(--muted)" }}>Sin resultados.</p>
+                  <p className="text-xs text-center py-3" style={{ color: "var(--muted)" }}>No results.</p>
                 )}
               </div>
             </div>
 
             <div>
-              <h2 className="text-xs font-medium mb-2" style={{ color: "var(--muted)" }}>ÁNGULO (opcional)</h2>
+              <h2 className="text-xs font-medium mb-2" style={{ color: "var(--muted)" }}>ANGLE (optional)</h2>
               <textarea
                 value={context}
                 onChange={(e) => setContext(e.target.value)}
-                placeholder="Contexto adicional o ángulo concreto que quieres destacar..."
+                placeholder="Additional context or a specific angle you want to highlight..."
                 rows={3}
                 className="w-full px-3 py-2 rounded-md text-sm outline-none border resize-none transition-colors"
                 style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
@@ -233,21 +233,21 @@ export default function ContentPage() {
               className="w-full py-2.5 rounded-md text-sm font-medium disabled:opacity-50 transition-opacity"
               style={{ background: "var(--accent)", color: "#ffffff" }}
             >
-              {loading ? "Generando..." : "Generar contenido"}
+              {loading ? "Generating..." : "Generate content"}
             </button>
           </div>
 
           {/* Right panel */}
           <div className="lg:col-span-3">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xs font-medium" style={{ color: "var(--muted)" }}>RESULTADO</h2>
+              <h2 className="text-xs font-medium" style={{ color: "var(--muted)" }}>RESULT</h2>
               {result && (
                 <button
                   onClick={handleCopy}
                   className="text-xs px-3 py-1 rounded font-medium"
                   style={{ background: "var(--btn-secondary)", color: "var(--btn-secondary-text)" }}
                 >
-                  {copied ? "¡Copiado!" : "Copiar todo"}
+                  {copied ? "Copied!" : "Copy all"}
                 </button>
               )}
             </div>
@@ -259,11 +259,11 @@ export default function ContentPage() {
               {loading && (
                 <div className="flex items-center gap-2" style={{ color: "var(--muted)" }}>
                   <span className="animate-pulse text-xl">✒</span>
-                  <span className="text-sm">Generando con tu voz...</span>
+                  <span className="text-sm">Generating in your voice...</span>
                 </div>
               )}
               {!loading && !result && (
-                <p className="text-sm" style={{ color: "var(--muted)" }}>El contenido generado aparecerá aquí...</p>
+                <p className="text-sm" style={{ color: "var(--muted)" }}>Generated content will appear here...</p>
               )}
               {result && renderContent()}
             </div>
@@ -274,7 +274,7 @@ export default function ContentPage() {
                 onChange={(e) => setResult(e.target.value)}
                 className="mt-3 w-full px-3 py-2 rounded-lg border text-xs resize-none outline-none transition-colors"
                 style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--muted)", height: "80px" }}
-                placeholder="Puedes editar el resultado directamente aquí..."
+                placeholder="You can edit the result directly here..."
               />
             )}
           </div>

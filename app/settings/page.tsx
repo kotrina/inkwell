@@ -55,7 +55,7 @@ export default function SettingsPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     if (!apiKey.trim()) {
-      toast.error("Introduce una API Key");
+      toast.error("Please enter an API key");
       return;
     }
     setSaving(true);
@@ -70,16 +70,16 @@ export default function SettingsPage() {
       setHasKey(true);
       setCurrentProvider(provider);
       setApiKey("");
-      toast.success("API Key guardada correctamente");
+      toast.success("API key saved successfully");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al guardar");
+      toast.error(err instanceof Error ? err.message : "Error saving API key");
     } finally {
       setSaving(false);
     }
   }
 
   async function handleDelete() {
-    if (!confirm("¿Eliminar la API Key guardada?")) return;
+    if (!confirm("Delete the saved API key?")) return;
     setDeleting(true);
     try {
       const res = await fetch("/api/settings", { method: "DELETE" });
@@ -87,9 +87,9 @@ export default function SettingsPage() {
       if (!res.ok) throw new Error(data.error);
       setHasKey(false);
       setCurrentProvider(null);
-      toast.success("API Key eliminada");
+      toast.success("API key deleted");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al eliminar");
+      toast.error(err instanceof Error ? err.message : "Error deleting API key");
     } finally {
       setDeleting(false);
     }
@@ -99,10 +99,10 @@ export default function SettingsPage() {
     <AppShell>
       <div className="max-w-xl">
         <h1 className="text-2xl font-bold mb-2" style={{ color: "var(--foreground)" }}>
-          Configuración
+          Settings
         </h1>
         <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
-          Gestiona tu API Key de IA. Sin ella, la generación de contenido y resúmenes no estará disponible.
+          Manage your AI API key. Without it, content and digest generation will not be available.
         </p>
 
         {/* Estado actual */}
@@ -118,8 +118,8 @@ export default function SettingsPage() {
               />
               <span className="text-sm" style={{ color: "var(--foreground)" }}>
                 {hasKey
-                  ? `API Key configurada · ${PROVIDERS.find((p) => p.value === currentProvider)?.label ?? currentProvider}`
-                  : "Sin API Key configurada"}
+                  ? `API key configured · ${PROVIDERS.find((p) => p.value === currentProvider)?.label ?? currentProvider}`
+                  : "No API key configured"}
               </span>
             </div>
             {hasKey && (
@@ -129,7 +129,7 @@ export default function SettingsPage() {
                 className="text-xs transition-colors hover:underline"
                 style={{ color: "var(--muted)" }}
               >
-                {deleting ? "Eliminando…" : "Eliminar"}
+                {deleting ? "Deleting…" : "Delete"}
               </button>
             )}
           </div>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
           {/* Selector de proveedor */}
           <div>
             <label className="block text-sm font-medium mb-2" style={{ color: "var(--foreground)" }}>
-              Proveedor de IA
+              AI provider
             </label>
             <div className="grid grid-cols-3 gap-2">
               {PROVIDERS.map((p) => (
@@ -174,7 +174,7 @@ export default function SettingsPage() {
                 className="text-xs underline"
                 style={{ color: "var(--accent)" }}
               >
-                Obtener API Key →
+                Get API key →
               </a>
             </div>
             <div className="relative">
@@ -182,7 +182,7 @@ export default function SettingsPage() {
                 type={showKey ? "text" : "password"}
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                placeholder={hasKey ? "••••••••••••••••••••• (escribe para reemplazar)" : selectedProviderInfo.placeholder}
+                placeholder={hasKey ? "••••••••••••••••••••• (type to replace)" : selectedProviderInfo.placeholder}
                 className="w-full px-3 py-2.5 rounded-md text-sm pr-16"
                 style={{
                   background: "var(--input-bg)",
@@ -198,11 +198,11 @@ export default function SettingsPage() {
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-xs"
                 style={{ color: "var(--muted)" }}
               >
-                {showKey ? "Ocultar" : "Mostrar"}
+                {showKey ? "Hide" : "Show"}
               </button>
             </div>
             <p className="text-xs mt-1.5" style={{ color: "var(--muted)" }}>
-              Tu API Key se cifra antes de guardarse y nunca se muestra en claro.
+              Your API key is encrypted before being stored and never shown in plain text.
             </p>
           </div>
 
@@ -216,7 +216,7 @@ export default function SettingsPage() {
               opacity: saving ? 0.6 : 1,
             }}
           >
-            {saving ? "Guardando…" : hasKey ? "Actualizar API Key" : "Guardar API Key"}
+            {saving ? "Saving…" : hasKey ? "Update API key" : "Save API key"}
           </button>
         </form>
 
@@ -225,10 +225,10 @@ export default function SettingsPage() {
           className="mt-8 px-4 py-3 rounded-lg text-xs space-y-1"
           style={{ background: "var(--subtle)", color: "var(--muted)" }}
         >
-          <p className="font-medium" style={{ color: "var(--foreground)" }}>¿Qué proveedor elegir?</p>
-          <p><strong>Anthropic (Claude):</strong> mejor resultado para textos en español y contenido con matices.</p>
-          <p><strong>OpenAI (GPT-4o):</strong> opción equilibrada, ampliamente compatible.</p>
-          <p><strong>Gemini:</strong> buena opción si ya tienes acceso a Google AI Studio.</p>
+          <p className="font-medium" style={{ color: "var(--foreground)" }}>Which provider should I choose?</p>
+          <p><strong>Anthropic (Claude):</strong> best results for nuanced editorial content.</p>
+          <p><strong>OpenAI (GPT-4o):</strong> well-rounded option, widely compatible.</p>
+          <p><strong>Gemini:</strong> great choice if you already have access to Google AI Studio.</p>
         </div>
       </div>
     </AppShell>

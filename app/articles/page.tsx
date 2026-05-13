@@ -19,32 +19,32 @@ type InputMode = "url" | "text" | "pdf";
 type StatusTab = "new" | "used" | "archived" | "all";
 
 const STATUS_TABS: { value: StatusTab; label: string }[] = [
-  { value: "new", label: "Nuevos" },
-  { value: "used", label: "Usados" },
-  { value: "archived", label: "Archivados" },
-  { value: "all", label: "Todos" },
+  { value: "new", label: "New" },
+  { value: "used", label: "Used" },
+  { value: "archived", label: "Archived" },
+  { value: "all", label: "All" },
 ];
 
 const STATUS_STYLES: Record<string, { label: string; bg: string; color: string }> = {
-  new:      { label: "nuevo",     bg: "rgba(52,211,153,0.15)",  color: "#34d399" },
-  used:     { label: "usado",     bg: "rgba(148,163,184,0.15)", color: "#94a3b8" },
-  archived: { label: "archivado", bg: "rgba(148,163,184,0.10)", color: "#64748b" },
+  new:      { label: "new",      bg: "rgba(52,211,153,0.15)",  color: "#34d399" },
+  used:     { label: "used",     bg: "rgba(148,163,184,0.15)", color: "#94a3b8" },
+  archived: { label: "archived", bg: "rgba(148,163,184,0.10)", color: "#64748b" },
 };
 
 const STATUS_ACTIONS: Record<string, { label: string; next: string }[]> = {
-  new:      [{ label: "Archivar", next: "archived" }],
-  used:     [{ label: "→ Nuevo", next: "new" }, { label: "Archivar", next: "archived" }],
-  archived: [{ label: "Restaurar", next: "new" }],
+  new:      [{ label: "Archive", next: "archived" }],
+  used:     [{ label: "→ New", next: "new" }, { label: "Archive", next: "archived" }],
+  archived: [{ label: "Restore", next: "new" }],
 };
 
 function relativeDate(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const d = Math.floor(diff / 86400000);
-  if (d === 0) return "hoy";
-  if (d === 1) return "ayer";
-  if (d < 7) return `hace ${d} días`;
-  if (d < 30) return `hace ${Math.floor(d / 7)} sem.`;
-  return new Date(iso).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+  if (d === 0) return "today";
+  if (d === 1) return "yesterday";
+  if (d < 7) return `${d}d ago`;
+  if (d < 30) return `${Math.floor(d / 7)}w ago`;
+  return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short" });
 }
 
 export default function ArticlesPage() {
@@ -108,9 +108,9 @@ export default function ArticlesPage() {
       if (!res.ok) throw new Error(data.error);
       setTitle(data.title);
       setContent(data.content);
-      toast.success("Contenido extraído correctamente");
+      toast.success("Content extracted successfully");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al procesar la URL");
+      toast.error(err instanceof Error ? err.message : "Error processing the URL");
     } finally {
       setScraping(false);
     }
@@ -128,16 +128,16 @@ export default function ArticlesPage() {
       if (!res.ok) throw new Error(data.error);
       setTitle(data.title);
       setContent(data.content);
-      toast.success("PDF procesado correctamente");
+      toast.success("PDF processed successfully");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al procesar el PDF");
+      toast.error(err instanceof Error ? err.message : "Error processing the PDF");
     } finally {
       setScraping(false);
     }
   }
 
   async function handleSave() {
-    if (!title || !content) { toast.error("Título y contenido son requeridos"); return; }
+    if (!title || !content) { toast.error("Title and content are required"); return; }
     setLoading(true);
     try {
       const res = await fetch("/api/articles", {
@@ -148,23 +148,23 @@ export default function ArticlesPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setTitle(""); setContent(""); setUrl("");
-      toast.success("Artículo guardado");
+      toast.success("Article saved");
       if (activeTab === "new" || activeTab === "all") {
         setArticles((prev) => [data, ...prev]);
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al guardar");
+      toast.error(err instanceof Error ? err.message : "Error saving article");
     } finally {
       setLoading(false);
     }
   }
 
   async function handleDelete(id: string) {
-    if (!confirm("¿Eliminar este artículo?")) return;
+    if (!confirm("Delete this article?")) return;
     const res = await fetch(`/api/articles/${id}`, { method: "DELETE" });
     if (res.ok) {
       setArticles((prev) => prev.filter((a) => a.id !== id));
-      toast.success("Artículo eliminado");
+      toast.success("Article deleted");
     }
   }
 
@@ -176,19 +176,19 @@ export default function ArticlesPage() {
     });
     if (res.ok) {
       setArticles((prev) => prev.filter((a) => a.id !== id));
-      const labels: Record<string, string> = { new: "nuevo", used: "usado", archived: "archivado" };
-      toast.success(`Marcado como ${labels[status] ?? status}`);
+      const labels: Record<string, string> = { new: "new", used: "used", archived: "archived" };
+      toast.success(`Marked as ${labels[status] ?? status}`);
     }
   }
 
   return (
     <AppShell>
       <div className="max-w-4xl">
-        <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>Artículos</h1>
+        <h1 className="text-2xl font-bold mb-6" style={{ color: "var(--foreground)" }}>Articles</h1>
 
-        {/* Formulario añadir */}
+        {/* Add article form */}
         <div className="rounded-xl p-6 border mb-8" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
-          <h2 className="text-xs font-medium mb-4" style={{ color: "var(--muted)" }}>AÑADIR ARTÍCULO</h2>
+          <h2 className="text-xs font-medium mb-4" style={{ color: "var(--muted)" }}>ADD ARTICLE</h2>
 
           <div className="flex gap-1 mb-4 p-1 rounded-lg" style={{ background: "var(--subtle)" }}>
             {(["url", "text", "pdf"] as InputMode[]).map((m) => (
@@ -202,7 +202,7 @@ export default function ArticlesPage() {
                   boxShadow: mode === m ? "0 1px 3px rgba(0,0,0,0.15)" : "none",
                 }}
               >
-                {m === "url" ? "URL" : m === "text" ? "Texto" : "PDF"}
+                {m === "url" ? "URL" : m === "text" ? "Text" : "PDF"}
               </button>
             ))}
           </div>
@@ -224,7 +224,7 @@ export default function ArticlesPage() {
                 className="px-4 py-2 rounded-md text-sm font-medium transition-all disabled:opacity-50"
                 style={{ background: "transparent", color: "var(--accent)", border: "1px solid rgba(129,140,248,0.4)" }}
               >
-                {scraping ? "Extrayendo..." : "Extraer"}
+                {scraping ? "Extracting..." : "Extract"}
               </button>
             </div>
           )}
@@ -238,7 +238,7 @@ export default function ArticlesPage() {
                 className="w-full py-8 rounded-lg border-2 border-dashed text-sm transition-colors disabled:opacity-50"
                 style={{ borderColor: "var(--border)", color: "var(--muted)" }}
               >
-                {scraping ? "Procesando PDF..." : "Haz clic para subir un PDF"}
+                {scraping ? "Processing PDF..." : "Click to upload a PDF"}
               </button>
             </div>
           )}
@@ -248,14 +248,14 @@ export default function ArticlesPage() {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Título del artículo"
+              placeholder="Article title"
               className="w-full px-3 py-2 rounded-md text-sm outline-none border transition-colors"
               style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
             />
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder={mode === "text" ? "Pega el texto aquí..." : "El contenido aparecerá aquí tras la extracción"}
+              placeholder={mode === "text" ? "Paste text here..." : "Content will appear here after extraction"}
               rows={mode === "text" ? 8 : 4}
               className="w-full px-3 py-2 rounded-md text-sm outline-none border resize-none transition-colors"
               style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
@@ -267,7 +267,7 @@ export default function ArticlesPage() {
                 className="px-5 py-2 rounded-md text-sm font-medium transition-opacity disabled:opacity-50"
                 style={{ background: "var(--accent)", color: "#ffffff" }}
               >
-                {loading ? "Guardando..." : "Guardar artículo"}
+                {loading ? "Saving..." : "Save article"}
               </button>
             </div>
           </div>
@@ -299,7 +299,7 @@ export default function ArticlesPage() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar por título..."
+              placeholder="Search by title..."
               className="w-full pl-7 pr-3 py-1.5 rounded-md text-xs outline-none border transition-colors"
               style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
             />
@@ -328,7 +328,7 @@ export default function ArticlesPage() {
                 className="px-2.5 py-0.5 rounded-full text-xs transition-all"
                 style={{ color: "var(--muted)" }}
               >
-                × limpiar
+                × clear
               </button>
             )}
           </div>
@@ -337,14 +337,14 @@ export default function ArticlesPage() {
         {/* Tabla de artículos */}
         {articles.length === 0 ? (
           <p className="text-sm text-center py-12" style={{ color: "var(--muted)" }}>
-            {activeTab === "new" && "No hay artículos nuevos."}
-            {activeTab === "used" && "No hay artículos usados todavía."}
-            {activeTab === "archived" && "No hay artículos archivados."}
-            {activeTab === "all" && "Aún no hay artículos. ¡Añade el primero!"}
+            {activeTab === "new" && "No new articles."}
+            {activeTab === "used" && "No used articles yet."}
+            {activeTab === "archived" && "No archived articles."}
+            {activeTab === "all" && "No articles yet. Add your first one!"}
           </p>
         ) : filtered.length === 0 ? (
           <p className="text-sm text-center py-12" style={{ color: "var(--muted)" }}>
-            Sin resultados para esa búsqueda.
+            No results for that search.
           </p>
         ) : (
           <div className="rounded-xl border overflow-hidden" style={{ borderColor: "var(--border)" }}>
@@ -357,11 +357,11 @@ export default function ArticlesPage() {
                 gridTemplateColumns: "1fr 140px 52px 80px 70px 80px",
               }}
             >
-              <span>TÍTULO</span>
+              <span>TITLE</span>
               <span>TAGS</span>
-              <span>IDIOMA</span>
-              <span>ESTADO</span>
-              <span>FECHA</span>
+              <span>LANG</span>
+              <span>STATUS</span>
+              <span>DATE</span>
               <span></span>
             </div>
 
@@ -432,7 +432,7 @@ export default function ArticlesPage() {
                     </span>
                     {article.status === "used" && article.lastSummaryAt && (
                       <span className="text-xs pl-1" style={{ color: "var(--muted)" }}>
-                        {new Date(article.lastSummaryAt).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}
+                        {new Date(article.lastSummaryAt).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
                       </span>
                     )}
                   </div>
@@ -473,8 +473,8 @@ export default function ArticlesPage() {
               className="px-4 py-2 text-xs"
               style={{ background: "var(--table-header)", borderTop: "1px solid var(--border)", color: "var(--table-header-text)" }}
             >
-              {filtered.length} {filtered.length === 1 ? "artículo" : "artículos"}
-              {filtered.length !== articles.length && ` de ${articles.length}`}
+              {filtered.length} {filtered.length === 1 ? "article" : "articles"}
+              {filtered.length !== articles.length && ` of ${articles.length}`}
             </div>
           </div>
         )}

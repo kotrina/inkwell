@@ -14,14 +14,14 @@ export function NoApiKeyBanner() {
     >
       <span className="text-base mt-0.5">⚠️</span>
       <div>
-        <span className="font-semibold">Sin API Key de IA configurada.</span>{" "}
-        Klipwise funciona como almacén de contenido, pero la generación de resúmenes y contenido no está disponible.{" "}
+        <span className="font-semibold">No AI API key configured.</span>{" "}
+        Klipwise works as a content library, but summary and content generation are not available.{" "}
         <Link
           href="/settings"
           className="underline font-medium"
           style={{ color: "var(--accent)" }}
         >
-          Configura tu API Key →
+          Set up your API key →
         </Link>
       </div>
     </div>
