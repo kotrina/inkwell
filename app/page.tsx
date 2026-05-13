@@ -130,10 +130,19 @@ export default function Home() {
 
       {/* Footer */}
       <footer style={{ borderTop: "1px solid var(--border)", padding: "24px", textAlign: "center" }}>
-        <p style={{ margin: 0, fontSize: "13px", color: "var(--muted)" }}>
-          © 2025 Klipwise ·{" "}
-          <Link href="/login" style={{ color: "var(--accent)", textDecoration: "none" }}>Iniciar sesión</Link>
-        </p>
+        <div style={{ display: "flex", gap: "20px", justifyContent: "center", flexWrap: "wrap", marginBottom: "10px" }}>
+          {[
+            { href: "/legal", label: "Aviso Legal" },
+            { href: "/privacy", label: "Privacidad" },
+            { href: "/cookies", label: "Cookies" },
+            { href: "/login", label: "Iniciar sesión" },
+          ].map((l) => (
+            <Link key={l.href} href={l.href} style={{ fontSize: "13px", color: "var(--muted)", textDecoration: "none" }}>
+              {l.label}
+            </Link>
+          ))}
+        </div>
+        <p style={{ margin: 0, fontSize: "12px", color: "var(--muted)" }}>© 2026 Klipwise</p>
       </footer>
 
     </div>
