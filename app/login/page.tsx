@@ -27,13 +27,13 @@ function LoginForm() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
-        toast.success("Cuenta creada. Iniciando sesión...");
+        toast.success("Account created. Signing in...");
       }
       const result = await signIn("credentials", { email, password, redirect: false });
-      if (result?.error) throw new Error("Credenciales incorrectas");
+      if (result?.error) throw new Error("Invalid credentials");
       router.push("/dashboard");
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Error al iniciar sesión");
+      toast.error(err instanceof Error ? err.message : "Sign in error");
     } finally {
       setLoading(false);
     }
@@ -52,7 +52,7 @@ function LoginForm() {
               borderBottom: mode === m ? "2px solid var(--accent)" : "2px solid transparent",
             }}
           >
-            {m === "login" ? "Iniciar sesión" : "Crear cuenta"}
+            {m === "login" ? "Sign in" : "Create account"}
           </button>
         ))}
       </div>
@@ -60,19 +60,19 @@ function LoginForm() {
       <form onSubmit={handleSubmit} className="space-y-4">
         {mode === "register" && (
           <div>
-            <label className="block text-xs mb-1.5" style={{ color: "var(--muted)" }}>Nombre</label>
+            <label className="block text-xs mb-1.5" style={{ color: "var(--muted)" }}>Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Tu nombre"
+              placeholder="Your name"
               className="w-full px-3 py-2 rounded-md text-sm outline-none border transition-colors"
               style={{ background: "var(--input-bg)", borderColor: "var(--border)", color: "var(--foreground)" }}
             />
           </div>
         )}
         <div>
-          <label className="block text-xs mb-1.5" style={{ color: "var(--muted)" }}>Email</label>
+          <label className="block text-xs mb-1.5" style={{ color: "var(--muted)" }}>Email address</label>
           <input
             type="email"
             required
@@ -84,7 +84,7 @@ function LoginForm() {
           />
         </div>
         <div>
-          <label className="block text-xs mb-1.5" style={{ color: "var(--muted)" }}>Contraseña</label>
+          <label className="block text-xs mb-1.5" style={{ color: "var(--muted)" }}>Password</label>
           <input
             type="password"
             required
@@ -101,7 +101,7 @@ function LoginForm() {
           className="w-full py-2.5 rounded-md text-sm font-medium transition-opacity disabled:opacity-50"
           style={{ background: "var(--accent)", color: "#ffffff" }}
         >
-          {loading ? "..." : mode === "login" ? "Entrar" : "Crear cuenta"}
+          {loading ? "..." : mode === "login" ? "Sign in" : "Create account"}
         </button>
       </form>
     </div>
@@ -114,7 +114,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold mb-2" style={{ color: "var(--accent)" }}>✒ Klipwise</h1>
-          <p className="text-sm" style={{ color: "var(--muted)" }}>Tu biblioteca editorial personal</p>
+          <p className="text-sm" style={{ color: "var(--muted)" }}>Your personal editorial library</p>
         </div>
         <Suspense fallback={<div style={{ color: "var(--muted)", textAlign: "center" }}>...</div>}>
           <LoginForm />

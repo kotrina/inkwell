@@ -12,6 +12,7 @@ interface Article {
   tags: string[];
   status: string;
   createdAt: string;
+  lastSummaryAt?: string | null;
 }
 
 type InputMode = "url" | "text" | "pdf";
@@ -422,12 +423,19 @@ export default function ArticlesPage() {
                   </span>
 
                   {/* Estado */}
-                  <span
-                    className="text-xs px-2 py-0.5 rounded-full font-medium w-fit"
-                    style={{ background: st.bg, color: st.color }}
-                  >
-                    {st.label}
-                  </span>
+                  <div className="flex flex-col gap-0.5">
+                    <span
+                      className="text-xs px-2 py-0.5 rounded-full font-medium w-fit"
+                      style={{ background: st.bg, color: st.color }}
+                    >
+                      {st.label}
+                    </span>
+                    {article.status === "used" && article.lastSummaryAt && (
+                      <span className="text-xs pl-1" style={{ color: "var(--muted)" }}>
+                        {new Date(article.lastSummaryAt).toLocaleDateString("es-ES", { day: "numeric", month: "short" })}
+                      </span>
+                    )}
+                  </div>
 
                   {/* Fecha */}
                   <span className="text-xs" style={{ color: "var(--muted)" }}>

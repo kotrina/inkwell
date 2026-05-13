@@ -48,6 +48,7 @@ model User {
   sessions           Session[]
   articles           Article[]
   knowledgeItems     KnowledgeItem[]
+  emailSummaries     EmailSummary[]
   createdAt          DateTime        @default(now())
 }
 
@@ -60,16 +61,26 @@ model VerificationToken {
 }
 
 model Article {
-  id        String   @id @default(cuid())
-  title     String
-  url       String?
-  content   String   @db.Text
-  language  String   @default("en")
-  tags      String[]
-  status    String   @default("new") // "new" | "used" | "archived"
-  createdAt DateTime @default(now())
+  id            String    @id @default(cuid())
+  title         String
+  url           String?
+  content       String    @db.Text
+  language      String    @default("en")
+  tags          String[]
+  status        String    @default("new") // "new" | "used" | "archived"
+  lastSummaryAt DateTime?
+  createdAt     DateTime  @default(now())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmailSummary {
+  id        String    @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String    @db.Text
+  sentAt    DateTime?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model KnowledgeItem {
