@@ -11,95 +11,95 @@ const S = {
 
 export default function PrivacyPage() {
   return (
-    <LegalLayout title="Política de Privacidad" lastUpdated="mayo de 2026">
+    <LegalLayout title="Privacy Policy" lastUpdated="May 2026">
 
       <p style={S.p}>
-        En cumplimiento del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo (RGPD) y de la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD), le informamos sobre el tratamiento de sus datos personales.
+        In accordance with Regulation (EU) 2016/679 of the European Parliament and of the Council (GDPR) and Organic Law 3/2018 of 5 December on the Protection of Personal Data and guarantee of digital rights (LOPDGDD), we inform you about the processing of your personal data.
       </p>
 
-      <h2 style={S.h2}>1. Responsable del tratamiento</h2>
+      <h2 style={S.h2}>1. Data controller</h2>
       <ul style={S.ul}>
-        <li><strong>Identidad:</strong> Raúl Cotrina</li>
+        <li><strong>Identity:</strong> Raúl Cotrina</li>
         <li><strong>NIF:</strong> 09012736W</li>
-        <li><strong>Dirección:</strong> Avenida de la Coruña 37 1A, San Sebastián de los Reyes, Madrid</li>
+        <li><strong>Address:</strong> Avenida de la Coruña 37 1A, San Sebastián de los Reyes, Madrid, Spain</li>
         <li><strong>Email:</strong> raulcotrina@gmail.com</li>
       </ul>
 
-      <h2 style={S.h2}>2. Datos personales que tratamos</h2>
+      <h2 style={S.h2}>2. Personal data we process</h2>
       <table style={S.table}>
         <thead>
           <tr>
-            <th style={S.th}>Dato</th>
-            <th style={S.th}>Finalidad</th>
-            <th style={S.th}>Base legal</th>
+            <th style={S.th}>Data</th>
+            <th style={S.th}>Purpose</th>
+            <th style={S.th}>Legal basis</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td style={S.td}>Nombre</td>
-            <td style={S.td}>Personalización de la cuenta</td>
-            <td style={S.td}>Ejecución del contrato (Art. 6.1.b RGPD)</td>
+            <td style={S.td}>Name</td>
+            <td style={S.td}>Account personalisation</td>
+            <td style={S.td}>Performance of contract (Art. 6.1.b GDPR)</td>
           </tr>
           <tr>
-            <td style={S.td}>Dirección de email</td>
-            <td style={S.td}>Acceso a la cuenta y envío de resúmenes generados</td>
-            <td style={S.td}>Ejecución del contrato (Art. 6.1.b RGPD)</td>
+            <td style={S.td}>Email address</td>
+            <td style={S.td}>Account access and delivery of generated summaries</td>
+            <td style={S.td}>Performance of contract (Art. 6.1.b GDPR)</td>
           </tr>
           <tr>
-            <td style={S.td}>Contraseña (hasheada)</td>
-            <td style={S.td}>Autenticación segura</td>
-            <td style={S.td}>Ejecución del contrato (Art. 6.1.b RGPD)</td>
+            <td style={S.td}>Password (hashed)</td>
+            <td style={S.td}>Secure authentication</td>
+            <td style={S.td}>Performance of contract (Art. 6.1.b GDPR)</td>
           </tr>
           <tr>
-            <td style={S.td}>Contenido de artículos</td>
-            <td style={S.td}>Prestación del servicio de biblioteca y generación de contenido</td>
-            <td style={S.td}>Ejecución del contrato (Art. 6.1.b RGPD)</td>
+            <td style={S.td}>Article content</td>
+            <td style={S.td}>Provision of the library and content generation service</td>
+            <td style={S.td}>Performance of contract (Art. 6.1.b GDPR)</td>
           </tr>
         </tbody>
       </table>
 
-      <h2 style={S.h2}>3. Plazo de conservación</h2>
+      <h2 style={S.h2}>3. Retention period</h2>
       <p style={S.p}>
-        Los datos se conservarán mientras el usuario mantenga su cuenta activa. Una vez eliminada la cuenta, los datos se suprimirán en un plazo máximo de 30 días, salvo que exista obligación legal de conservarlos durante un período mayor.
+        Data will be retained for as long as the user keeps their account active. Once the account is deleted, data will be erased within a maximum of 30 days, unless there is a legal obligation to retain it for a longer period.
       </p>
 
-      <h2 style={S.h2}>4. Destinatarios y transferencias internacionales</h2>
+      <h2 style={S.h2}>4. Recipients and international transfers</h2>
       <p style={S.p}>
-        Los datos no se ceden a terceros con fines comerciales. Para la prestación del servicio, se utilizan los siguientes proveedores técnicos que actúan como encargados del tratamiento:
+        Data is not shared with third parties for commercial purposes. For the provision of the service, the following technical providers act as data processors:
       </p>
       <ul style={S.ul}>
-        <li><strong>Vercel Inc.</strong> — Alojamiento de la aplicación (servidores en la UE disponibles).</li>
-        <li><strong>Supabase Inc.</strong> — Base de datos (región EU West).</li>
-        <li><strong>Resend Inc.</strong> — Envío de emails transaccionales.</li>
-        <li><strong>Anthropic / OpenAI / Google</strong> — Proveedores de IA, según la API Key configurada por el usuario. El contenido de los artículos puede ser procesado por estos proveedores para generar resúmenes.</li>
+        <li><strong>Vercel Inc.</strong> — Application hosting (EU servers available).</li>
+        <li><strong>Supabase Inc.</strong> — Database (EU West region).</li>
+        <li><strong>Resend Inc.</strong> — Transactional email delivery.</li>
+        <li><strong>Anthropic / OpenAI / Google</strong> — AI providers, depending on the API key configured by the user. Article content may be processed by these providers to generate summaries.</li>
       </ul>
       <p style={S.p}>
-        En el caso de proveedores fuera del Espacio Económico Europeo, las transferencias se amparan en las Cláusulas Contractuales Tipo aprobadas por la Comisión Europea o en el marco EU-US Data Privacy Framework, según corresponda.
+        Where providers are located outside the European Economic Area, transfers are covered by the Standard Contractual Clauses approved by the European Commission or the EU-US Data Privacy Framework, as applicable.
       </p>
 
-      <h2 style={S.h2}>5. Derechos del usuario</h2>
-      <p style={S.p}>El usuario puede ejercer en cualquier momento los siguientes derechos:</p>
+      <h2 style={S.h2}>5. Your rights</h2>
+      <p style={S.p}>You may exercise the following rights at any time:</p>
       <ul style={S.ul}>
-        <li><strong>Acceso:</strong> conocer qué datos personales se tratan.</li>
-        <li><strong>Rectificación:</strong> corregir datos inexactos o incompletos.</li>
-        <li><strong>Supresión:</strong> solicitar la eliminación de sus datos.</li>
-        <li><strong>Portabilidad:</strong> recibir sus datos en formato estructurado y legible.</li>
-        <li><strong>Limitación del tratamiento:</strong> solicitar que se restrinja el uso de sus datos.</li>
-        <li><strong>Oposición:</strong> oponerse al tratamiento de sus datos.</li>
+        <li><strong>Access:</strong> find out what personal data is being processed.</li>
+        <li><strong>Rectification:</strong> correct inaccurate or incomplete data.</li>
+        <li><strong>Erasure:</strong> request deletion of your data.</li>
+        <li><strong>Portability:</strong> receive your data in a structured, machine-readable format.</li>
+        <li><strong>Restriction of processing:</strong> request that the use of your data be restricted.</li>
+        <li><strong>Objection:</strong> object to the processing of your data.</li>
       </ul>
       <p style={S.p}>
-        Para ejercer estos derechos, envíe un email a <strong>raulcotrina@gmail.com</strong> indicando el derecho que desea ejercer y adjuntando una copia de su documento de identidad.
+        To exercise these rights, send an email to <strong>raulcotrina@gmail.com</strong> stating the right you wish to exercise and attaching a copy of your identity document.
       </p>
 
-      <h2 style={S.h2}>6. Reclamación ante la autoridad de control</h2>
+      <h2 style={S.h2}>6. Right to lodge a complaint</h2>
       <p style={S.p}>
-        Si considera que el tratamiento de sus datos no es conforme al RGPD, tiene derecho a presentar una reclamación ante la Agencia Española de Protección de Datos (AEPD), con sede en C/ Jorge Juan 6, 28001 Madrid, a través de su sitio web{" "}
+        If you consider that the processing of your data does not comply with the GDPR, you have the right to lodge a complaint with the Spanish Data Protection Agency (AEPD), located at C/ Jorge Juan 6, 28001 Madrid, through its website{" "}
         <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)" }}>www.aepd.es</a>.
       </p>
 
-      <h2 style={S.h2}>7. Seguridad</h2>
+      <h2 style={S.h2}>7. Security</h2>
       <p style={S.p}>
-        Se han adoptado las medidas técnicas y organizativas necesarias para garantizar la seguridad de los datos personales y evitar su alteración, pérdida, tratamiento o acceso no autorizado. Las contraseñas se almacenan cifradas mediante algoritmos de hash seguros (bcrypt) y nunca en texto plano.
+        The necessary technical and organisational measures have been adopted to ensure the security of personal data and prevent its alteration, loss, processing or unauthorised access. Passwords are stored encrypted using secure hashing algorithms (bcrypt) and are never stored in plain text.
       </p>
 
     </LegalLayout>
