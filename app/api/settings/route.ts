@@ -7,7 +7,7 @@ import type { AiProvider } from "@/lib/ai-client";
 
 const VALID_PROVIDERS: AiProvider[] = ["anthropic", "openai", "gemini"];
 
-/** GET /api/settings — devuelve provider y si hay key configurada (nunca la key en claro) */
+/** GET /api/settings — devuelve provider, si hay key configurada y outputLanguage */
 export async function GET() {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
@@ -15,12 +15,13 @@ export async function GET() {
   const userId = (session.user as { id: string }).id;
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { aiProvider: true, aiApiKeyEncrypted: true },
+    select: { aiProvider: true, aiApiKeyEncrypted: true, outputLanguage: true },
   });
 
   return NextResponse.json({
     provider: user?.aiProvider ?? null,
     hasKey: Boolean(user?.aiApiKeyEncrypted),
+    outputLanguage: user?.outputLanguage ?? "en",
   });
 }
 
@@ -44,6 +45,26 @@ export async function POST(req: Request) {
   await prisma.user.update({
     where: { id: userId },
     data: { aiProvider: provider, aiApiKeyEncrypted },
+  });
+
+  return NextResponse.json({ ok: true });
+}
+
+/** PATCH /api/settings — actualiza outputLanguage */
+export async function PATCH(req: Request) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) return NextResponse.json({ error: "No autorizado" }, { status: 401 });
+
+  const userId = (session.user as { id: string }).id;
+  const { outputLanguage } = await req.json();
+
+  if (!outputLanguage || typeof outputLanguage !== "string") {
+    return NextResponse.json({ error: "Invalid language" }, { status: 400 });
+  }
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { outputLanguage },
   });
 
   return NextResponse.json({ ok: true });

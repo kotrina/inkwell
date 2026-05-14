@@ -6,6 +6,16 @@ import toast from "react-hot-toast";
 
 type Provider = "anthropic" | "openai" | "gemini";
 
+const LANGUAGES = [
+  { value: "en", label: "English" },
+  { value: "es", label: "Español" },
+  { value: "fr", label: "Français" },
+  { value: "de", label: "Deutsch" },
+  { value: "it", label: "Italiano" },
+  { value: "pt", label: "Português" },
+  { value: "nl", label: "Nederlands" },
+];
+
 const PROVIDERS: { value: Provider; label: string; placeholder: string; docsUrl: string }[] = [
   {
     value: "anthropic",
@@ -36,6 +46,8 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [showKey, setShowKey] = useState(false);
+  const [outputLanguage, setOutputLanguage] = useState("en");
+  const [savingLang, setSavingLang] = useState(false);
 
   useEffect(() => {
     fetch("/api/settings")
@@ -46,6 +58,7 @@ export default function SettingsPage() {
           setCurrentProvider(data.provider);
           setProvider(data.provider);
         }
+        if (data.outputLanguage) setOutputLanguage(data.outputLanguage);
         setLoading(false);
       });
   }, []);
@@ -92,6 +105,23 @@ export default function SettingsPage() {
       toast.error(err instanceof Error ? err.message : "Error deleting API key");
     } finally {
       setDeleting(false);
+    }
+  }
+
+  async function handleSaveLanguage(lang: string) {
+    setOutputLanguage(lang);
+    setSavingLang(true);
+    try {
+      await fetch("/api/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ outputLanguage: lang }),
+      });
+      toast.success("Output language updated");
+    } catch {
+      toast.error("Error saving language");
+    } finally {
+      setSavingLang(false);
     }
   }
 
@@ -229,6 +259,35 @@ export default function SettingsPage() {
           <p><strong>Anthropic (Claude):</strong> best results for nuanced editorial content.</p>
           <p><strong>OpenAI (GPT-4o):</strong> well-rounded option, widely compatible.</p>
           <p><strong>Gemini:</strong> great choice if you already have access to Google AI Studio.</p>
+        </div>
+
+        {/* Output language */}
+        <div className="mt-10">
+          <h2 className="text-xl font-bold mb-1" style={{ color: "var(--foreground)" }}>
+            Output language
+          </h2>
+          <p className="text-sm mb-6" style={{ color: "var(--muted)" }}>
+            Language used when generating email digests and social content.
+          </p>
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.value}
+                type="button"
+                disabled={savingLang}
+                onClick={() => handleSaveLanguage(lang.value)}
+                className="px-4 py-2.5 rounded-md text-sm font-medium border transition-all text-left"
+                style={{
+                  borderColor: outputLanguage === lang.value ? "var(--accent)" : "var(--border)",
+                  background: outputLanguage === lang.value ? "rgba(99,102,241,0.1)" : "var(--card)",
+                  color: outputLanguage === lang.value ? "var(--accent)" : "var(--foreground)",
+                  opacity: savingLang ? 0.6 : 1,
+                }}
+              >
+                {lang.label}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </AppShell>
