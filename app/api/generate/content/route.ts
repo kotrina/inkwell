@@ -7,30 +7,30 @@ import { getUserApiKey } from "@/app/api/settings/route";
 
 const RATE_LIMIT = new Map<string, number>();
 
-const FORMAT_INSTRUCTIONS: Record<string, string> = {
-  twitter: `Genera un hilo de Twitter en español. Formato:
-- Empieza con un tweet gancho (el más impactante)
-- Continúa con tweets numerados (1/, 2/, etc.) de máximo 280 caracteres cada uno
-- Máximo 10 tweets
-- Usa emojis con moderación
-- El último tweet debe tener una llamada a la acción o reflexión final`,
+const FORMAT_INSTRUCTIONS = (lang: string): Record<string, string> => ({
+  twitter: `Write a Twitter thread in ${lang}. Format:
+- Start with a hook tweet (the most impactful one)
+- Continue with numbered tweets (1/, 2/, etc.) of max 280 characters each
+- Maximum 10 tweets
+- Use emojis sparingly
+- The last tweet should have a call to action or final reflection`,
 
-  linkedin: `Genera un post de LinkedIn en español. Formato:
-- Primera línea: gancho poderoso que invite a expandir el post
-- Párrafos cortos (2-3 líneas máximo)
-- Usa saltos de línea para dar aire
-- Emojis estratégicos (no excesivos)
-- Termina con 3-5 hashtags relevantes
-- Tono profesional pero cercano`,
+  linkedin: `Write a LinkedIn post in ${lang}. Format:
+- First line: powerful hook that invites expanding the post
+- Short paragraphs (2-3 lines max)
+- Use line breaks for breathing room
+- Strategic emojis (not excessive)
+- End with 3-5 relevant hashtags
+- Professional but approachable tone`,
 
-  article: `Genera un artículo largo en español. Formato:
-- Título atractivo (H1)
-- Introducción que enganche al lector (2 párrafos)
-- 3-5 secciones con subtítulos (H2)
-- Conclusión con reflexión propia
-- Longitud: 800-1200 palabras
-- Tono editorial, con opinión propia`,
-};
+  article: `Write a long-form article in ${lang}. Format:
+- Attractive title (H1)
+- Introduction that hooks the reader (2 paragraphs)
+- 3-5 sections with subtitles (H2)
+- Conclusion with personal reflection
+- Length: 800-1200 words
+- Editorial tone, with a personal opinion`,
+});
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -61,10 +61,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Artículos y formato son requeridos" }, { status: 400 });
     }
 
-    const [articles, knowledgeItems] = await Promise.all([
+    const [articles, knowledgeItems, user] = await Promise.all([
       prisma.article.findMany({ where: { id: { in: articleIds }, userId } }),
       prisma.knowledgeItem.findMany({ where: { userId } }),
+      prisma.user.findUnique({ where: { id: userId }, select: { outputLanguage: true } }),
     ]);
+    const outputLanguage = user?.outputLanguage ?? "en";
 
     if (!articles.length) {
       return NextResponse.json({ error: "No se encontraron artículos" }, { status: 404 });
@@ -74,27 +76,25 @@ export async function POST(req: Request) {
       ? knowledgeItems
           .map((k) => `[${k.type.toUpperCase()}] ${k.title}:\n${k.content.slice(0, 1000)}`)
           .join("\n\n")
-      : "No hay elementos en la base de conocimiento todavía.";
+      : "No knowledge base items yet.";
 
     const articlesText = articles
       .map((a, i) => `## Fuente ${i + 1}: ${a.title}\n${a.content.slice(0, 3000)}`)
       .join("\n\n---\n\n");
 
-    const formatInstruction = FORMAT_INSTRUCTIONS[format] || FORMAT_INSTRUCTIONS.article;
+    const systemPrompt = `You are a writing assistant that helps create authentic content. Always write your output in the following language: ${outputLanguage}. Do not use any other language in your response.
+The user has a knowledge base with examples of their writing, their tone and their areas of interest.
+Use that knowledge base to replicate their exact voice: their level of formality, how they structure ideas, their usual vocabulary, how they use examples, etc.
+Do NOT use a generic or corporate tone. The content must sound as if the user themselves had written it.
 
-    const systemPrompt = `Eres un asistente de escritura que ayuda a crear contenido auténtico.
-El usuario tiene una base de conocimiento con ejemplos de su escritura, su tono y sus temas de interés.
-Usa esa base de conocimiento para replicar su voz exacta: su nivel de formalidad, su forma de estructurar ideas, su vocabulario habitual, cómo usa los ejemplos, etc.
-NO uses un tono genérico ni corporativo. El contenido debe sonar como si lo hubiera escrito el propio usuario.
-
-Base de conocimiento del usuario:
+User's knowledge base:
 ${knowledgeText}`;
 
-    const userPrompt = `Basándote en los siguientes artículos, crea contenido en el formato indicado.
-${context ? `\nÁngulo o contexto adicional del usuario: ${context}\n` : ""}
-${formatInstruction}
+    const userPrompt = `Based on the following articles, create content in the indicated format. Write everything in ${outputLanguage}.
+${context ? `\nAdditional context or angle from the user: ${context}\n` : ""}
+${FORMAT_INSTRUCTIONS(outputLanguage)[format] || FORMAT_INSTRUCTIONS(outputLanguage).article}
 
-Fuentes de contenido:
+Content sources:
 ${articlesText}`;
 
     const content = await generateText(userAi.provider, userAi.apiKey, {
